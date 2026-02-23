@@ -49,15 +49,17 @@ static void teai_read_from_pair(void* dst, tea_word_t L, tea_word_t R) {
     memcpy((char*)dst + 4, &R, 4);
 }
 
-int tea_init(const void* key, int b) {
+int tea_init(const void* key, int bits) {
 #if BLKCPHR_IS_BIG
-    const tea_word_t* K = key;
-    int i; for (i = 0; i < 4; i++)
+    const tea_word_t* K = key; int i;
+    if (bits != 128) return 1;
+    for (i = 0; i < 4; i++)
         teai_ctx.K[i] = blkcphr_bswap32(K[i]);
 #else
+    if (bits != 128) return 1;
     memcpy(teai_ctx.K, key, 16);
 #endif
-    return 0; (void)b;
+    return 0;
 }
 
 void tea_block_encode(void* dst, const void* src) {

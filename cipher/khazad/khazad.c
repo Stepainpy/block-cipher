@@ -122,8 +122,9 @@ static khazad_word_t khazadi_part_round(khazad_word_t in, khazad_word_t key) {
     return khazadi_read_from_brick(S) ^ key;
 }
 
-int khazad_init(const void* key, int b) {
+int khazad_init(const void* key, int bits) {
     khazad_word_t L, R, T; int i;
+    if (bits != 128) return 1;
 
     memcpy(&L, (const char*)key + 0, 8);
     memcpy(&R, (const char*)key + 8, 8);
@@ -138,7 +139,7 @@ int khazad_init(const void* key, int b) {
         khazadi_ctx.K[i] = R;
     }
 
-    return 0; (void)b;
+    return 0;
 }
 
 static khazad_word_t khazadi_write_to_block(const void* src) {
