@@ -1,3 +1,12 @@
+/* Blowfish
+ *
+ * Length of block - 64 bit
+ * Length of key   - from 32 to 448 bit
+ * Sources:
+ *   https://ru.wikipedia.org/wiki/Blowfish
+ *   https://en.wikipedia.org/wiki/Blowfish_(cipher)
+ */
+
 #ifndef BLOWFISH_BLOCK_CIPHER_H
 #define BLOWFISH_BLOCK_CIPHER_H
 

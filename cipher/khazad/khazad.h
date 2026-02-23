@@ -1,3 +1,11 @@
+/* KHAZAD
+ *
+ * Length of block - 64 bit
+ * Length of key   - 128 bit
+ * Sources:
+ *   https://ru.wikipedia.org/wiki/KHAZAD
+ */
+
 #ifndef KHAZAD_BLOCK_CIPHER_H
 #define KHAZAD_BLOCK_CIPHER_H
 

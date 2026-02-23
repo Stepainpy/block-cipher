@@ -1,3 +1,11 @@
+/* Tiny Encryption Algorithm (TEA)
+ *
+ * Length of block - 64 bit
+ * Length of key   - 128 bit
+ * Sources:
+ *   https://ru.wikipedia.org/wiki/TEA
+ */
+
 #ifndef TEA_BLOCK_CIPHER_H
 #define TEA_BLOCK_CIPHER_H
 

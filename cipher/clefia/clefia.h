@@ -1,3 +1,12 @@
+/* CLEFIA
+ *
+ * Length of block - 128 bit
+ * Length of key   - 128, 192 or 256 bit
+ * Sources:
+ *   https://datatracker.ietf.org/doc/html/rfc6114
+ *   https://ru.wikipedia.org/wiki/CLEFIA
+ */
+
 #ifndef CLEFIA_BLOCK_CIPHER_H
 #define CLEFIA_BLOCK_CIPHER_H
 

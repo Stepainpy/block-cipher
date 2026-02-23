@@ -1,3 +1,13 @@
+/* Advanced Encryption Standard (AES)
+ *
+ * Length of block - 128 bit
+ * Length of key   - 128, 192 or 256 bit
+ * Sources:
+ *   https://ru.wikipedia.org/wiki/AES_(стандарт_шифрования)
+ *   https://en.wikipedia.org/wiki/Advanced_Encryption_Standard
+ *   https://en.wikipedia.org/wiki/AES_key_schedule
+ */
+
 #ifndef AES_BLOCK_CIPHER_H
 #define AES_BLOCK_CIPHER_H
 
