@@ -146,6 +146,11 @@ int main(void) {
 
     /* -------------------------------------------------------------------------------- */
 
+    /* Bug report:
+     * on clang in LEA-129 and LEA-256 on 28th round (i = 27)
+     * value of X[2] is wrong, because fail test with test vector
+     */
+
     puts("Testing KHAZAD:");
     test_case(
         khazad, KHAZAD_BLOCK_BYTE, 128,
