@@ -1,9 +1,11 @@
-/* Ruptor's TEA
+/* Ruptor's TEA (RTEA)
  *
  * Length of block - 64 bit
  * Length of key   - 128 or 256 bit
  * Sources:
  *   https://ru.wikipedia.org/wiki/RTEA
+ * Warning:
+ *   Not tested with use official test vectors
  */
 
 #ifndef RTEA_BLOCK_CIPHER_H
