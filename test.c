@@ -45,11 +45,11 @@ do {                                                  \
         puts(FAIL);                                   \
         printf("  > expected: ");                     \
         for (i = 0; i < blocksz; i++)                 \
-            printf("%02x", C[i]);                     \
+            printf("%02x", cipher[i] & 0xFF);         \
         putchar('\n');                                \
         printf("  > received: ");                     \
         for (i = 0; i < blocksz; i++)                 \
-            printf("%02x", cipher[i] & 0xFF);         \
+            printf("%02x", C[i]);                     \
         putchar('\n');                                \
     }                                                 \
 } while (0)
