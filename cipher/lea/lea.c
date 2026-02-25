@@ -60,7 +60,7 @@ static lea_word_t leai_rotl(lea_word_t n, int s) { return n << s | n >> (32 - s)
 static lea_word_t leai_rotr(lea_word_t n, int s) { return n >> s | n << (32 - s); }
 
 static void leai_write_to_4block(lea_4block_t out, const void* src) {
-    memcpy(out, src, LEA_BLOCK_BYTE);
+    memcpy(out, src, sizeof(lea_4block_t));
 #if BLKCPHR_IS_BIG
     out[0] = blkcphr_bswap32(out[0]);
     out[1] = blkcphr_bswap32(out[1]);
@@ -70,7 +70,7 @@ static void leai_write_to_4block(lea_4block_t out, const void* src) {
 }
 
 static void leai_write_to_6block(lea_6block_t out, const void* src) {
-    memcpy(out, src, sizeof(lea_word_t) * 6);
+    memcpy(out, src, sizeof(lea_6block_t));
 #if BLKCPHR_IS_BIG
     out[0] = blkcphr_bswap32(out[0]);
     out[1] = blkcphr_bswap32(out[1]);
@@ -82,7 +82,7 @@ static void leai_write_to_6block(lea_6block_t out, const void* src) {
 }
 
 static void leai_write_to_8block(lea_8block_t out, const void* src) {
-    memcpy(out, src, sizeof(lea_word_t) * 8);
+    memcpy(out, src, sizeof(lea_8block_t));
 #if BLKCPHR_IS_BIG
     out[0] = blkcphr_bswap32(out[0]);
     out[1] = blkcphr_bswap32(out[1]);
@@ -130,16 +130,12 @@ static void leai_init_key192(const void* key) {
 
     leai_ctx.rounds = 28;
     for (i = 0; i < 28; i++) {
-        T[0] = leai_rotl(T[0] + leai_rotl(leai_delta[i % 6], i + 0),  1);
-        T[1] = leai_rotl(T[1] + leai_rotl(leai_delta[i % 6], i + 1),  3);
-        T[2] = leai_rotl(T[2] + leai_rotl(leai_delta[i % 6], i + 2),  6);
-        T[3] = leai_rotl(T[3] + leai_rotl(leai_delta[i % 6], i + 3), 11);
-        T[4] = leai_rotl(T[4] + leai_rotl(leai_delta[i % 6], i + 4), 13);
-        T[5] = leai_rotl(T[5] + leai_rotl(leai_delta[i % 6], i + 5), 17);
-
-        leai_ctx.K[i][0] = T[0]; leai_ctx.K[i][1] = T[1];
-        leai_ctx.K[i][2] = T[2]; leai_ctx.K[i][3] = T[3];
-        leai_ctx.K[i][4] = T[4]; leai_ctx.K[i][5] = T[5];
+        leai_ctx.K[i][0] = T[0] = leai_rotl(T[0] + leai_rotl(leai_delta[i % 6], i + 0),  1);
+        leai_ctx.K[i][1] = T[1] = leai_rotl(T[1] + leai_rotl(leai_delta[i % 6], i + 1),  3);
+        leai_ctx.K[i][2] = T[2] = leai_rotl(T[2] + leai_rotl(leai_delta[i % 6], i + 2),  6);
+        leai_ctx.K[i][3] = T[3] = leai_rotl(T[3] + leai_rotl(leai_delta[i % 6], i + 3), 11);
+        leai_ctx.K[i][4] = T[4] = leai_rotl(T[4] + leai_rotl(leai_delta[i % 6], i + 4), 13);
+        leai_ctx.K[i][5] = T[5] = leai_rotl(T[5] + leai_rotl(leai_delta[i % 6], i + 5), 17);
     }
 }
 
@@ -149,19 +145,12 @@ static void leai_init_key256(const void* key) {
 
     leai_ctx.rounds = 32;
     for (i = 0; i < 32; i++) {
-        T[(6*i+0) & 7] = leai_rotl(T[(6*i+0) & 7] + leai_rotl(leai_delta[i & 7], i + 0),  1);
-        T[(6*i+1) & 7] = leai_rotl(T[(6*i+1) & 7] + leai_rotl(leai_delta[i & 7], i + 1),  3);
-        T[(6*i+2) & 7] = leai_rotl(T[(6*i+2) & 7] + leai_rotl(leai_delta[i & 7], i + 2),  6);
-        T[(6*i+3) & 7] = leai_rotl(T[(6*i+3) & 7] + leai_rotl(leai_delta[i & 7], i + 3), 11);
-        T[(6*i+4) & 7] = leai_rotl(T[(6*i+4) & 7] + leai_rotl(leai_delta[i & 7], i + 4), 13);
-        T[(6*i+5) & 7] = leai_rotl(T[(6*i+5) & 7] + leai_rotl(leai_delta[i & 7], i + 5), 17);
-
-        leai_ctx.K[i][0] = T[(6*i+0) & 7];
-        leai_ctx.K[i][1] = T[(6*i+1) & 7];
-        leai_ctx.K[i][2] = T[(6*i+2) & 7];
-        leai_ctx.K[i][3] = T[(6*i+3) & 7];
-        leai_ctx.K[i][4] = T[(6*i+4) & 7];
-        leai_ctx.K[i][5] = T[(6*i+5) & 7];
+        leai_ctx.K[i][0] = T[(6*i+0) & 7] = leai_rotl(T[(6*i+0) & 7] + leai_rotl(leai_delta[i & 7], i + 0),  1);
+        leai_ctx.K[i][1] = T[(6*i+1) & 7] = leai_rotl(T[(6*i+1) & 7] + leai_rotl(leai_delta[i & 7], i + 1),  3);
+        leai_ctx.K[i][2] = T[(6*i+2) & 7] = leai_rotl(T[(6*i+2) & 7] + leai_rotl(leai_delta[i & 7], i + 2),  6);
+        leai_ctx.K[i][3] = T[(6*i+3) & 7] = leai_rotl(T[(6*i+3) & 7] + leai_rotl(leai_delta[i & 7], i + 3), 11);
+        leai_ctx.K[i][4] = T[(6*i+4) & 7] = leai_rotl(T[(6*i+4) & 7] + leai_rotl(leai_delta[i & 7], i + 4), 13);
+        leai_ctx.K[i][5] = T[(6*i+5) & 7] = leai_rotl(T[(6*i+5) & 7] + leai_rotl(leai_delta[i & 7], i + 5), 17);
     }
 }
 
@@ -175,18 +164,18 @@ int lea_init(const void* key, int bits) {
 }
 
 void lea_block_encode(void* dst, const void* src) {
-    lea_4block_t X; lea_word_t i;
-    leai_write_to_4block(X, src);
+    lea_4block_t Xp, Xc; lea_word_t i;
+    leai_write_to_4block(Xp, src);
 
     for (i = 0; i < leai_ctx.rounds; i++) {
-        lea_word_t T = X[0];
-        X[0] = leai_rotl((X[0] ^ leai_ctx.K[i][0]) + (X[1] ^ leai_ctx.K[i][1]), 9);
-        X[1] = leai_rotr((X[1] ^ leai_ctx.K[i][2]) + (X[2] ^ leai_ctx.K[i][3]), 5);
-        X[2] = leai_rotr((X[2] ^ leai_ctx.K[i][4]) + (X[3] ^ leai_ctx.K[i][5]), 3);
-        X[3] = T;
+        Xc[0] = leai_rotl((Xp[0] ^ leai_ctx.K[i][0]) + (Xp[1] ^ leai_ctx.K[i][1]), 9);
+        Xc[1] = leai_rotr((Xp[1] ^ leai_ctx.K[i][2]) + (Xp[2] ^ leai_ctx.K[i][3]), 5);
+        Xc[2] = leai_rotr((Xp[2] ^ leai_ctx.K[i][4]) + (Xp[3] ^ leai_ctx.K[i][5]), 3);
+        Xc[3] = Xp[0];
+        memcpy(Xp, Xc, LEA_BLOCK_BYTE);
     }
 
-    leai_read_from_4block(dst, X);
+    leai_read_from_4block(dst, Xp);
 }
 
 void lea_block_decode(void* dst, const void* src) {
