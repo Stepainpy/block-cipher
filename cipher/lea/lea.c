@@ -56,8 +56,8 @@ static struct {
     lea_word_t rounds;
 } leai_ctx;
 
-static lea_word_t leai_rotl(lea_word_t n, int s) { return n << s | n >> (32 - s); }
-static lea_word_t leai_rotr(lea_word_t n, int s) { return n >> s | n << (32 - s); }
+static lea_word_t leai_rotl(lea_word_t n, int s) { return n << s | n >> (-s & 31); }
+static lea_word_t leai_rotr(lea_word_t n, int s) { return n >> s | n << (-s & 31); }
 
 static void leai_write_to_4block(lea_4block_t out, const void* src) {
     memcpy(out, src, sizeof(lea_4block_t));
