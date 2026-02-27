@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <string.h>
 
+#include "kuznyechik/kuznyechik.h"
 #include "blowfish/blowfish.h"
 #include "clefia/clefia.h"
 #include "khazad/khazad.h"
@@ -226,6 +227,18 @@ int main(void) {
         /* K */ "\x33\x22\x11\x00\x77\x66\x55\x44\xbb\xaa\x99\x88\xff\xee\xdd\xcc",
         /* P */ "\x67\x45\x23\x01\xef\xcd\xab\x89",
         /* C */ "\x92\x6b\x6c\x12\x3e\x3a\x65\xc0"
+    );
+    putchar('\n');
+
+    /* -------------------------------------------------------------------------------- */
+
+    puts("Testing Kuznyechik:");
+    test_case(
+        kuznyechik, KUZNYECHIK_BLOCK_BYTE, 256,
+        /* K */ "\x88\x99\xaa\xbb\xcc\xdd\xee\xff\x00\x11\x22\x33\x44\x55\x66\x77"
+                "\xfe\xdc\xba\x98\x76\x54\x32\x10\x01\x23\x45\x67\x89\xab\xcd\xef",
+        /* P */ "\x11\x22\x33\x44\x55\x66\x77\x00\xff\xee\xdd\xcc\xbb\xaa\x99\x88",
+        /* C */ "\x7f\x67\x9d\x90\xbe\xbc\x24\x30\x5a\x46\x8d\x42\xb9\xd4\xed\xcd"
     );
     putchar('\n');
 
