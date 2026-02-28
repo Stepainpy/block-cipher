@@ -286,99 +286,99 @@ size_t buffer_write(const void* out, size_t sz, size_t cnt, void* ud) {
 }
 
 #define mode_test_case_aead(mname, cname, ksz, vsz, asz, psz, csz, tsz, key, iv, authdat, plain, cipher, tag) \
-do { \
-    unsigned char T[tsz]; buffer_t P, C; int i; \
-    \
-    puts("[=============== Encryption ===============]"); \
-    \
-    printf("- Setup cipher with %3i bits key    ... ", ksz); \
-    puts(mname##_set_encode_func(cname##_block_encode) == 0 \
-        && cname##_init(key, ksz) == 0 ? OK : FAIL); \
-    \
-    printf("- Set initialization vector         ... "); \
-    puts(mname##_set_init_vector(iv) == 0 ? OK : FAIL); \
-    \
-    printf("- Set associated authenticated data ... "); \
-    puts(mname##_set_auth_data(authdat, asz) == 0 ? OK : FAIL); \
-    \
-    buffer_init(&P, plain, psz); memset(&C, 0, sizeof C); \
-    printf("- Set reader (plaintext)            ... "); \
+do {                                                             \
+    unsigned char T[tsz]; buffer_t P, C; int i;                  \
+                                                                 \
+    puts("[=============== Encryption ===============]");        \
+                                                                 \
+    printf("- Setup cipher with %3i bits key    ... ", ksz);     \
+    puts(mname##_set_encode_func(cname##_block_encode) == 0      \
+        && cname##_init(key, ksz) == 0 ? OK : FAIL);             \
+                                                                 \
+    printf("- Set initialization vector         ... ");          \
+    puts(mname##_set_init_vector(iv) == 0 ? OK : FAIL);          \
+                                                                 \
+    printf("- Set associated authenticated data ... ");          \
+    puts(mname##_set_auth_data(authdat, asz) == 0 ? OK : FAIL);  \
+                                                                 \
+    buffer_init(&P, plain, psz); memset(&C, 0, sizeof C);        \
+    printf("- Set reader (plaintext)            ... ");          \
     puts(mname##_set_reader(buffer_read , &P) == 0 ? OK : FAIL); \
-    printf("- Set writer (ciphertext)           ... "); \
+    printf("- Set writer (ciphertext)           ... ");          \
     puts(mname##_set_writer(buffer_write, &C) == 0 ? OK : FAIL); \
-    \
-    printf("- Encryption process                ... "); \
-    puts(mname##_encryption() == 0 ? OK : FAIL); \
-    \
-    printf("- Check ciphertext                  ... "); \
-    if (memcmp(C.data, cipher, csz) == 0) puts(OK); \
-    else { \
-        puts(FAIL); \
-        printf("  > expected: ");                     \
-        for (i = 0; i < csz; i++)                 \
-            printf("%02x", cipher[i] & 0xFF);         \
-        putchar('\n');                                \
-        printf("  > received: ");                     \
-        for (i = 0; i < csz; i++)                 \
-            printf("%02x", C.data[i]);                     \
-        putchar('\n');                                \
-    } \
-    \
-    printf("- Get authentication tag            ... "); \
-    puts(mname##_get_auth_tag(T) == 0 ? OK : FAIL); \
-    \
-    printf("- Check authentication tag          ... "); \
-    if (memcmp(T, tag, tsz) == 0) puts(OK); \
-    else { \
-        puts(FAIL); \
-        printf("  > expected: ");                     \
-        for (i = 0; i < tsz; i++)                 \
-            printf("%02x", tag[i] & 0xFF);         \
-        putchar('\n');                                \
-        printf("  > received: ");                     \
-        for (i = 0; i < tsz; i++)                 \
-            printf("%02x", T[i]);                     \
-        putchar('\n');                                \
-    } \
-    \
-    puts("[=============== Decryption ===============]"); \
-    \
-    printf("- Setup cipher with %3i bits key    ... ", ksz); \
-    puts(mname##_set_encode_func(cname##_block_encode) == 0 \
-        && cname##_init(key, ksz) == 0 ? OK : FAIL); \
-    \
-    printf("- Set initialization vector         ... "); \
-    puts(mname##_set_init_vector(iv) == 0 ? OK : FAIL); \
-    \
-    printf("- Set associated authenticated data ... "); \
-    puts(mname##_set_auth_data(authdat, asz) == 0 ? OK : FAIL); \
-    \
-    printf("- Set authentication tag            ... "); \
-    puts(mname##_set_auth_tag(T) == 0 ? OK : FAIL); \
-    \
-    memcpy(&P, &C, sizeof C); P.cursor = 0; \
-    memset(&C, 0, sizeof C); \
-    printf("- Set reader (ciphertext)           ... "); \
+                                                                 \
+    printf("- Encryption process                ... ");          \
+    puts(mname##_encryption() == 0 ? OK : FAIL);                 \
+                                                                 \
+    printf("- Check ciphertext                  ... ");          \
+    if (memcmp(C.data, cipher, csz) == 0) puts(OK);              \
+    else {                                                       \
+        puts(FAIL);                                              \
+        printf("  > expected: ");                                \
+        for (i = 0; i < csz; i++)                                \
+            printf("%02x", cipher[i] & 0xFF);                    \
+        putchar('\n');                                           \
+        printf("  > received: ");                                \
+        for (i = 0; i < csz; i++)                                \
+            printf("%02x", C.data[i]);                           \
+        putchar('\n');                                           \
+    }                                                            \
+                                                                 \
+    printf("- Get authentication tag            ... ");          \
+    puts(mname##_get_auth_tag(T) == 0 ? OK : FAIL);              \
+                                                                 \
+    printf("- Check authentication tag          ... ");          \
+    if (memcmp(T, tag, tsz) == 0) puts(OK);                      \
+    else {                                                       \
+        puts(FAIL);                                              \
+        printf("  > expected: ");                                \
+        for (i = 0; i < tsz; i++)                                \
+            printf("%02x", tag[i] & 0xFF);                       \
+        putchar('\n');                                           \
+        printf("  > received: ");                                \
+        for (i = 0; i < tsz; i++)                                \
+            printf("%02x", T[i]);                                \
+        putchar('\n');                                           \
+    }                                                            \
+                                                                 \
+    puts("[=============== Decryption ===============]");        \
+                                                                 \
+    printf("- Setup cipher with %3i bits key    ... ", ksz);     \
+    puts(mname##_set_encode_func(cname##_block_encode) == 0      \
+        && cname##_init(key, ksz) == 0 ? OK : FAIL);             \
+                                                                 \
+    printf("- Set initialization vector         ... ");          \
+    puts(mname##_set_init_vector(iv) == 0 ? OK : FAIL);          \
+                                                                 \
+    printf("- Set associated authenticated data ... ");          \
+    puts(mname##_set_auth_data(authdat, asz) == 0 ? OK : FAIL);  \
+                                                                 \
+    printf("- Set authentication tag            ... ");          \
+    puts(mname##_set_auth_tag(T) == 0 ? OK : FAIL);              \
+                                                                 \
+    memcpy(&P, &C, sizeof C); P.cursor = 0;                      \
+    memset(&C, 0, sizeof C);                                     \
+    printf("- Set reader (ciphertext)           ... ");          \
     puts(mname##_set_reader(buffer_read , &P) == 0 ? OK : FAIL); \
-    printf("- Set writer (plaintext)            ... "); \
+    printf("- Set writer (plaintext)            ... ");          \
     puts(mname##_set_writer(buffer_write, &C) == 0 ? OK : FAIL); \
-    \
-    printf("- Decryption process                ... "); \
-    puts(mname##_decryption() == 0 ? OK : FAIL); \
-    \
-    printf("- Check plaintext                   ... "); \
-    if (memcmp(C.data, plain, psz) == 0) puts(OK); \
-    else { \
-        puts(FAIL); \
-        printf("  > expected: ");                     \
-        for (i = 0; i < psz; i++)                 \
-            printf("%02x", plain[i] & 0xFF);         \
-        putchar('\n');                                \
-        printf("  > received: ");                     \
-        for (i = 0; i < psz; i++)                 \
-            printf("%02x", C.data[i]);                     \
-        putchar('\n');                                \
-    } \
+                                                                 \
+    printf("- Decryption process                ... ");          \
+    puts(mname##_decryption() == 0 ? OK : FAIL);                 \
+                                                                 \
+    printf("- Check plaintext                   ... ");          \
+    if (memcmp(C.data, plain, psz) == 0) puts(OK);               \
+    else {                                                       \
+        puts(FAIL);                                              \
+        printf("  > expected: ");                                \
+        for (i = 0; i < psz; i++)                                \
+            printf("%02x", plain[i] & 0xFF);                     \
+        putchar('\n');                                           \
+        printf("  > received: ");                                \
+        for (i = 0; i < psz; i++)                                \
+            printf("%02x", C.data[i]);                           \
+        putchar('\n');                                           \
+    }                                                            \
 } while (0)
 
 void mode_test(void) {
