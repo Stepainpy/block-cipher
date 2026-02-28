@@ -5,6 +5,7 @@
 #include "blowfish/blowfish.h"
 #include "clefia/clefia.h"
 #include "khazad/khazad.h"
+#include "magma/magma.h"
 #include "rtea/rtea.h"
 #include "aes/aes.h"
 #include "lea/lea.h"
@@ -239,6 +240,18 @@ int main(void) {
                 "\xfe\xdc\xba\x98\x76\x54\x32\x10\x01\x23\x45\x67\x89\xab\xcd\xef",
         /* P */ "\x11\x22\x33\x44\x55\x66\x77\x00\xff\xee\xdd\xcc\xbb\xaa\x99\x88",
         /* C */ "\x7f\x67\x9d\x90\xbe\xbc\x24\x30\x5a\x46\x8d\x42\xb9\xd4\xed\xcd"
+    );
+    putchar('\n');
+
+    /* -------------------------------------------------------------------------------- */
+
+    puts("Testing Magma:");
+    test_case(
+        magma, MAGMA_BLOCK_BYTE, 256,
+        /* K */ "\xff\xee\xdd\xcc\xbb\xaa\x99\x88\x77\x66\x55\x44\x33\x22\x11\x00"
+                "\xf0\xf1\xf2\xf3\xf4\xf5\xf6\xf7\xf8\xf9\xfa\xfb\xfc\xfd\xfe\xff",
+        /* P */ "\xfe\xdc\xba\x98\x76\x54\x32\x10",
+        /* C */ "\x4e\xe9\x01\xe5\xc2\xd8\xca\x3d"
     );
     putchar('\n');
 
