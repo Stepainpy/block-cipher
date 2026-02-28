@@ -36,8 +36,8 @@
  * 6. Run `mgm16_decryption`
  */
 
-#ifndef MULTILINEAR_GALOIS_MODE_H
-#define MULTILINEAR_GALOIS_MODE_H
+#ifndef MULTILINEAR_GALOIS_MODE_16_H
+#define MULTILINEAR_GALOIS_MODE_16_H
 
 #include <stddef.h>
 
@@ -58,4 +58,4 @@ int mgm16_set_encode_func(void (*enc)(void*, const void*));
 int mgm16_encryption(void);
 int mgm16_decryption(void);
 
-#endif /* MULTILINEAR_GALOIS_MODE_H */
+#endif /* MULTILINEAR_GALOIS_MODE_16_H */
