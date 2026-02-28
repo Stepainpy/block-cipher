@@ -27,22 +27,22 @@
 do {                                                  \
     unsigned char P[blocksz], C[blocksz]; int i;      \
                                                       \
-    printf("- Set key with %i bits ... ", keysz);     \
+    printf("- Set key with %3i bits ... ", keysz);    \
     puts(name##_init(key, keysz) == 0 ? OK : FAIL);   \
                                                       \
-    printf("- Check X = D(E(X)) ... ");               \
+    printf("- Check X = D(E(X))     ... ");           \
     memcpy(P, plain, blocksz);                        \
     name##_block_encode(C, P);                        \
     name##_block_decode(P, C);                        \
     puts(memcmp(P, plain, blocksz) == 0 ? OK : FAIL); \
                                                       \
-    printf("- Check X = E(D(X)) ... ");               \
+    printf("- Check X = E(D(X))     ... ");           \
     memcpy(P, plain, blocksz);                        \
     name##_block_decode(C, P);                        \
     name##_block_encode(P, C);                        \
     puts(memcmp(P, plain, blocksz) == 0 ? OK : FAIL); \
                                                       \
-    printf("- Check test vector ... ");               \
+    printf("- Check test vector     ... ");           \
     memcpy(P, plain, blocksz);                        \
     name##_block_encode(C, P);                        \
     if (memcmp(C, cipher, blocksz) == 0) puts(OK);    \
