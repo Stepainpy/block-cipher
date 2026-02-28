@@ -406,10 +406,6 @@ void mode_test(void) {
         /* T */ "\xcf\x5d\x65\x6f\x40\xc3\x4f\x5c\x46\xe8\xbb\x0e\x29\xfc\xdb\x4c"
     );
     putchar('\n');
-
-    /* -------------------------------------------------------------------------------- */
-
-    puts("Testing Multilinear Galois Mode (MGM), 128 bit:");
     mode_test_case_aead(
         mgm16, kuznyechik, 256, 16, 16, 0, 0, 16,
         /* K */ "\x99\xaa\xbb\xcc\xdd\xee\xff\x00\x11\x22\x33\x44\x55\x66\x77\xfe"
@@ -446,10 +442,6 @@ void mode_test(void) {
         /* T */ "\xa7\x92\x80\x69\xaa\x10\xfd\x10"
     );
     putchar('\n');
-
-    /* -------------------------------------------------------------------------------- */
-
-    puts("Testing Multilinear Galois Mode (MGM), 64 bit:");
     mode_test_case_aead(
         mgm8, magma, 256, 8, 0, 8, 8, 8,
         /* K */ "\x99\xaa\xbb\xcc\xdd\xee\xff\x00\x11\x22\x33\x44\x55\x66\x77\xfe"
