@@ -334,7 +334,7 @@ static const khazad_byte_t khazadi_S[256] = {
     0x4a, 0xbd, 0x8f, 0x2d, 0xbc, 0x9c, 0x6a, 0x40, 0xcf, 0xa2, 0x80, 0x4f, 0x1f, 0xca, 0xaa, 0x42
 };
 
-#ifdef __GNUC__
+#if BLKCPHR_ON_GNUC
 #  pragma GCC diagnostic push
 #  pragma GCC diagnostic ignored "-Wlong-long"
 #endif
@@ -343,6 +343,6 @@ static const khazad_word_t khazadi_C[9] = {
     0xde48a899db32b7fc, 0xe39e919be2bb416e, 0xa5cb6b95a1f3b102,
     0xccc41d14c363da5d, 0x5fdc7dcd7f5a6c5c, 0xf726ffede89d6f8e
 };
-#ifdef __GNUC__
+#if BLKCPHR_ON_GNUC
 #  pragma GCC diagnostic pop
 #endif
