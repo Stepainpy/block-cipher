@@ -39,6 +39,9 @@
  *                                                        K[4]     K[5]     K[6]     K[7]
  */
 
+#define BLKCPHR_USE_ROTL32 1
+#define BLKCPHR_USE_ROTR32 1
+
 #include "lea.h"
 #include <string.h>
 #include "config.h"
@@ -56,13 +59,8 @@ static struct {
     lea_word_t rounds;
 } leai_ctx;
 
-static lea_word_t leai_rotl(lea_word_t n, unsigned s) {
-    s &= 31; return n << s | n >> (-s & 31);
-}
-
-static lea_word_t leai_rotr(lea_word_t n, unsigned s) {
-    s &= 31; return n >> s | n << (-s & 31);
-}
+#define leai_rotl blkcphr_rotl32
+#define leai_rotr blkcphr_rotr32
 
 static void leai_write_to_4block(lea_4block_t out, const void* src) {
     memcpy(out, src, sizeof(lea_4block_t));

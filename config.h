@@ -91,4 +91,26 @@ typedef unsigned __int64 blkcphr_u64_t;
 #  error Unsupported compiler
 #endif
 
+/* Bit rotation functions */
+
+#if BLKCPHR_USE_ROTL32
+static blkcphr_u32_t blkcphr_rotl32(blkcphr_u32_t n, blkcphr_u32_t s)
+    { s &= 31; return n << s | n >> (-s & 31); }
+#endif
+
+#if BLKCPHR_USE_ROTR32
+static blkcphr_u32_t blkcphr_rotr32(blkcphr_u32_t n, blkcphr_u32_t s)
+    { s &= 31; return n >> s | n << (-s & 31); }
+#endif
+
+#if BLKCPHR_USE_ROTL64
+static blkcphr_u64_t blkcphr_rotl64(blkcphr_u64_t n, blkcphr_u64_t s)
+    { s &= 63; return n << s | n >> (-s & 63); }
+#endif
+
+#if BLKCPHR_USE_ROTR64
+static blkcphr_u64_t blkcphr_rotr64(blkcphr_u64_t n, blkcphr_u64_t s)
+    { s &= 63; return n >> s | n << (-s & 63); }
+#endif
+
 #endif /* BLOCK_CIPHER_CONFIG_H */
