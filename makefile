@@ -34,18 +34,14 @@ else
 	@echo "Already cleaned"
 endif
 
-$(OBJS): | $(OBJDIR) $(OBJCDIR) $(OBJMDIR) $(OBJCDIRS) $(OBJMDIRS)
+$(OBJS): | $(OBJDIR) $(OBJCDIRS) $(OBJMDIRS)
 
 $(OBJDIR):
 	mkdir $(OBJDIR)
-$(OBJCDIR):
-	mkdir $(OBJCDIR)
-$(OBJMDIR):
-	mkdir $(OBJMDIR)
 $(OBJCDIRS):
-	mkdir $(OBJCDIRS)
+	mkdir -p $(OBJCDIRS)
 $(OBJMDIRS):
-	mkdir $(OBJMDIRS)
+	mkdir -p $(OBJMDIRS)
 
 $(OBJDIR)/%.o: %.c
 	$(CC) $(CFLAGS) -c -o $@ $<
@@ -53,5 +49,5 @@ $(OBJDIR)/%.o: %.c
 $(OBJCDIR)/%/%.o: cipher/%/%.c
 	$(CC) $(CFLAGS) -c -o $@ $<
 
-$(OBJMDIR)/%/%.o: mode/%/%.c
+$(OBJMDIR)/%/%.o:   mode/%/%.c
 	$(CC) $(CFLAGS) -c -o $@ $<
