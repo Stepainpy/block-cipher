@@ -10,6 +10,7 @@
 #include "rtea/rtea.h"
 #include "aes/aes.h"
 #include "lea/lea.h"
+#include "rc5/rc5.h"
 #include "rc6/rc6.h"
 #include "tea/tea.h"
 
@@ -300,6 +301,17 @@ void cipher_test(void) {
                 "\x00\x11\x22\x33\x44\x55\x66\x77\x88\x99\xaa\xbb\xcc\xdd\xee\xff",
         /* P */ "\x01\x23\x45\x67\x89\xab\xcd\xef\xfe\xdc\xba\x98\x76\x54\x32\x10",
         /* C */ "\x9a\xcc\x23\x7d\xff\x16\xd7\x6c\x20\xef\x7c\x91\x9e\x3a\x75\x09"
+    );
+    putchar('\n');
+
+    /* -------------------------------------------------------------------------------- */
+
+    puts("Testing Rivest's cipher 5 (RC5):");
+    cipher_test_case(
+        rc5, RC5_BLOCK_BYTE, 128,
+        /* K */ "\x00\x01\x02\x03\x04\x05\x06\x07\x08\x09\x0a\x0b\x0c\x0d\x0e\x0f",
+        /* P */ "\x00\x01\x02\x03\x04\x05\x06\x07",
+        /* C */ "\x2a\x0e\xdc\x0e\x94\x31\xff\x73"
     );
     putchar('\n');
 
