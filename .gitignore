@@ -1,3 +1,2 @@
-makefile
-main.c
+bin/
 *.exe
