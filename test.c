@@ -4,6 +4,7 @@
 #include "kuznyechik/kuznyechik.h"
 #include "blowfish/blowfish.h"
 #include "camellia/camellia.h"
+#include "cast128/cast128.h"
 #include "clefia/clefia.h"
 #include "khazad/khazad.h"
 #include "magma/magma.h"
@@ -312,6 +313,29 @@ void cipher_test(void) {
         /* K */ "\x00\x01\x02\x03\x04\x05\x06\x07\x08\x09\x0a\x0b\x0c\x0d\x0e\x0f",
         /* P */ "\x00\x01\x02\x03\x04\x05\x06\x07",
         /* C */ "\x2a\x0e\xdc\x0e\x94\x31\xff\x73"
+    );
+    putchar('\n');
+
+    /* -------------------------------------------------------------------------------- */
+
+    puts("Testing CAST-128:");
+    cipher_test_case(
+        cast128, CAST128_BLOCK_BYTE, 128,
+        /* K */ "\x01\x23\x45\x67\x12\x34\x56\x78\x23\x45\x67\x89\x34\x56\x78\x9a",
+        /* P */ "\x01\x23\x45\x67\x89\xab\xcd\xef",
+        /* C */ "\x23\x8b\x4f\xe5\x84\x7e\x44\xb2"
+    );
+    cipher_test_case(
+        cast128, CAST128_BLOCK_BYTE, 80,
+        /* K */ "\x01\x23\x45\x67\x12\x34\x56\x78\x23\x45",
+        /* P */ "\x01\x23\x45\x67\x89\xab\xcd\xef",
+        /* C */ "\xeb\x6a\x71\x1a\x2c\x02\x27\x1b"
+    );
+    cipher_test_case(
+        cast128, CAST128_BLOCK_BYTE, 40,
+        /* K */ "\x01\x23\x45\x67\x12",
+        /* P */ "\x01\x23\x45\x67\x89\xab\xcd\xef",
+        /* C */ "\x7a\xc8\x16\xd1\x6e\x9b\x30\x2e"
     );
     putchar('\n');
 
