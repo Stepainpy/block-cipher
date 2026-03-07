@@ -5,19 +5,19 @@ CFLAGS += -O2 -std=c89
 CFLAGS += -Wall -Wextra -pedantic
 CFLAGS += -I. -Icipher -Imode
 
-CPHRCFILES = $(wildcard cipher/*/*.c)
-MODECFILES = $(wildcard   mode/*/*.c)
+CCFILES = $(wildcard cipher/*/*.c)
+MCFILES = $(wildcard   mode/*/*.c)
 
 OBJDIR = bin
-OBJCPHRDIR = $(OBJDIR)/cipher
-OBJMODEDIR = $(OBJDIR)/mode
+OBJCDIR = $(OBJDIR)/cipher
+OBJMDIR = $(OBJDIR)/mode
 
-OBJCDIRS = $(addprefix $(OBJCPHRDIR)/,$(notdir $(basename $(CPHRCFILES))))
-OBJMDIRS = $(addprefix $(OBJMODEDIR)/,$(notdir $(basename $(MODECFILES))))
+OBJCDIRS = $(addprefix $(OBJCDIR)/,$(notdir $(basename $(CCFILES))))
+OBJMDIRS = $(addprefix $(OBJMDIR)/,$(notdir $(basename $(MCFILES))))
 
 OBJS += $(OBJDIR)/test.o
-OBJS += $(patsubst %.c,$(OBJDIR)/%.o,$(CPHRCFILES))
-OBJS += $(patsubst %.c,$(OBJDIR)/%.o,$(MODECFILES))
+OBJS += $(patsubst %.c,$(OBJDIR)/%.o,$(CCFILES))
+OBJS += $(patsubst %.c,$(OBJDIR)/%.o,$(MCFILES))
 
 ifeq ($(CC),clang)
 CFLAGS += -Wno-newline-eof
@@ -34,24 +34,24 @@ else
 	@echo "Already cleaned"
 endif
 
-$(OBJS): | $(OBJDIR) $(OBJCPHRDIR) $(OBJMODEDIR) $(OBJCDIRS) $(OBJMDIRS)
+$(OBJS): | $(OBJDIR) $(OBJCDIR) $(OBJMDIR) $(OBJCDIRS) $(OBJMDIRS)
 
 $(OBJDIR):
 	mkdir $(OBJDIR)
-$(OBJCPHRDIR):
-	mkdir $(OBJCPHRDIR)
-$(OBJMODEDIR):
-	mkdir $(OBJMODEDIR)
+$(OBJCDIR):
+	mkdir $(OBJCDIR)
+$(OBJMDIR):
+	mkdir $(OBJMDIR)
 $(OBJCDIRS):
 	mkdir $(OBJCDIRS)
 $(OBJMDIRS):
 	mkdir $(OBJMDIRS)
 
 $(OBJDIR)/%.o: %.c
-	$(CC) -c -o $@ $< $(CFLAGS)
+	$(CC) $(CFLAGS) -c -o $@ $<
 
-$(OBJCPHRDIR)/%/%.o: cipher/%/%.c
-	$(CC) -c -o $@ $< $(CFLAGS)
+$(OBJCDIR)/%/%.o: cipher/%/%.c
+	$(CC) $(CFLAGS) -c -o $@ $<
 
-$(OBJMODEDIR)/%/%.o: mode/%/%.c
-	$(CC) -c -o $@ $< $(CFLAGS)
+$(OBJMDIR)/%/%.o: mode/%/%.c
+	$(CC) $(CFLAGS) -c -o $@ $<
