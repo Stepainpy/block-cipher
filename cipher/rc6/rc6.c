@@ -41,7 +41,8 @@ int rc6_init(const void* key, int bits) {
     rc6_word_t A, B, L[64] = {0};
     int c, i, j, m, mi;
 
-    if (bits > 2040 || bits % 8 != 0) return 1;
+    if (bits < 0 || bits > 2040) return 1;
+    if (bits % 8 != 0) return 1;
     bits /= 8; /* now is bytes */
 
     c = (bits + 3) / 4; /* ceil(b/4) */
