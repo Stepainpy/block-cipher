@@ -27,7 +27,12 @@ all: $(OBJS)
 	$(CC) -o tp $^
 
 clean:
+ifneq ($(wildcard $(OBJDIR)/.*),)
 	rm -fr *.exe $(OBJDIR)/*
+	rmdir $(OBJDIR)
+else
+	@echo "Already cleaned"
+endif
 
 $(OBJS): | $(OBJDIR) $(OBJCPHRDIR) $(OBJMODEDIR) $(OBJCDIRS) $(OBJMDIRS)
 
