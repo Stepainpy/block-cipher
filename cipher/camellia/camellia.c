@@ -471,15 +471,10 @@ static const came_byte_t camei_S4[256] = {
     0x07, 0x55, 0xee, 0x0a, 0x49, 0x68, 0x38, 0xa4, 0x28, 0x7b, 0xc9, 0xc1, 0xe3, 0xf4, 0xc7, 0x9e
 };
 
-#if BLKCPHR_ON_GNUC
-#  pragma GCC diagnostic push
-#  pragma GCC diagnostic ignored "-Wlong-long"
-#endif
+BLKCPHR_U64_WARN_BEGIN
 static const came_word_t camei_sigma[6] = {
     0xa09e667f3bcc908b, 0xb67ae8584caa73b2,
     0xc6ef372fe94f82be, 0x54ff53a5f1d36f1c,
     0x10e527fade682d1d, 0xb05688c2b3e6c1fd
 };
-#if BLKCPHR_ON_GNUC
-#  pragma GCC diagnostic pop
-#endif
+BLKCPHR_U64_WARN_END

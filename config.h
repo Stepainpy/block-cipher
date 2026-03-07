@@ -16,6 +16,19 @@
 #  error Unsupported compiler
 #endif
 
+/* Turning off warning "-Wlong-long" on GNUC */
+
+#if BLKCPHR_ON_GNUC && __STDC_VERSION__ < 199901L
+#  define BLKCPHR_U64_WARN_BEGIN \
+    _Pragma("GCC diagnostic push") \
+    _Pragma("GCC diagnostic ignored \"-Wlong-long\"")
+#  define BLKCPHR_U64_WARN_END \
+    _Pragma("GCC diagnostic pop")
+#else
+#  define BLKCPHR_U64_WARN_BEGIN
+#  define BLKCPHR_U64_WARN_END
+#endif
+
 /* Define fixed width integer types */
 
 #if __STDC_VERSION__ >= 199901L
@@ -41,10 +54,9 @@ typedef unsigned int  blkcphr_u32_t;
 #endif
 
 #if BLKCPHR_ON_GNUC
-#  pragma GCC diagnostic push
-#  pragma GCC diagnostic ignored "-Wlong-long"
+BLKCPHR_U64_WARN_BEGIN
 typedef unsigned long long blkcphr_u64_t;
-#  pragma GCC diagnostic pop
+BLKCPHR_U64_WARN_END
 #elif BLKCPHR_ON_MSVC
 typedef unsigned __int64 blkcphr_u64_t;
 #else
