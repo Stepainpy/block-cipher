@@ -19,8 +19,8 @@
  *      T[0]         T[1]         T[2]         T[3]
  */
 
-#define BLKCPHR_USE_ROTL32 1
-#define BLKCPHR_USE_ROTR32 1
+#define BLKCPHR_USE_ROTL32 rc6i_rotl
+#define BLKCPHR_USE_ROTR32 rc6i_rotr
 
 #include "rc6.h"
 #include <string.h>
@@ -33,9 +33,6 @@ typedef rc6_word_t rc6_block_t[4];
 static struct {
     rc6_word_t S[44];
 } rc6i_ctx;
-
-#define rc6i_rotl blkcphr_rotl32
-#define rc6i_rotr blkcphr_rotr32
 
 int rc6_init(const void* key, int bits) {
     rc6_word_t A, B, L[64] = {0};

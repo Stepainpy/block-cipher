@@ -26,7 +26,7 @@
  *                                                          K[4]     K[5]     K[6]     K[7]
  */
 
-#define BLKCPHR_USE_ROTL32 1
+#define BLKCPHR_USE_ROTL32 cast256i_rotl
 
 #include "cast256.h"
 #include <string.h>
@@ -49,8 +49,6 @@ static struct {
     cast256_block_t Km[12];
     cast256_block_t Kr[12];
 } cast256i_ctx;
-
-#define cast256i_rotl blkcphr_rotl32
 
 #define LL(n) ((n >> 24) & 0xFF)
 #define LR(n) ((n >> 16) & 0xFF)

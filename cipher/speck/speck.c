@@ -33,8 +33,8 @@
  *                                                            K[2]             K[3]
  */
 
-#define BLKCPHR_USE_ROTL64 1
-#define BLKCPHR_USE_ROTR64 1
+#define BLKCPHR_USE_ROTL64 specki_rotl
+#define BLKCPHR_USE_ROTR64 specki_rotr
 
 #include "speck.h"
 #include <string.h>
@@ -46,9 +46,6 @@ static struct {
     speck_word_t K[34];
     speck_word_t rounds;
 } specki_ctx;
-
-#define specki_rotl blkcphr_rotl64
-#define specki_rotr blkcphr_rotr64
 
 static void specki_round_fwd(speck_word_t* L, speck_word_t* R, speck_word_t K) {
     *L  = specki_rotr(*L, 8);

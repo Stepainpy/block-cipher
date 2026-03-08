@@ -33,7 +33,7 @@
  *                                                            KR[0]            KR[1]
  */
 
-#define BLKCPHR_USE_ROTL32 1
+#define BLKCPHR_USE_ROTL32 camei_rotl
 
 #include "camellia.h"
 #include <string.h>
@@ -60,8 +60,6 @@ static struct {
     came_byte_t rounds;
     came_byte_t flcnt;
 } camei_ctx;
-
-#define camei_rotl blkcphr_rotl32
 
 static void camei_rotl128(came_block_t in, came_word_t s) {
     came_block_t out; s &= 127;

@@ -13,8 +13,8 @@
  * ^- dest
  */
 
-#define BLKCPHR_USE_ROTL32 1
-#define BLKCPHR_USE_ROTR32 1
+#define BLKCPHR_USE_ROTL32 rc5i_rotl
+#define BLKCPHR_USE_ROTR32 rc5i_rotr
 
 #include "rc5.h"
 #include <string.h>
@@ -25,9 +25,6 @@ typedef blkcphr_u32_t rc5_word_t;
 static struct {
     rc5_word_t S[42];
 } rc5i_ctx;
-
-#define rc5i_rotl blkcphr_rotl32
-#define rc5i_rotr blkcphr_rotr32
 
 int rc5_init(const void* key, int bits) {
     rc5_word_t A, B, L[64] = {0};

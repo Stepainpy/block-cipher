@@ -19,7 +19,7 @@
  * ^- key
  */
 
-#define BLKCPHR_USE_ROTL32 1
+#define BLKCPHR_USE_ROTL32 cast128i_rotl
 
 #include "cast128.h"
 #include <string.h>
@@ -43,8 +43,6 @@ static struct {
     cast128_word_t Kr[16];
     cast128_word_t rounds;
 } cast128i_ctx;
-
-#define cast128i_rotl blkcphr_rotl32
 
 #define LL(n) ((n >> 24) & 0xFF)
 #define LR(n) ((n >> 16) & 0xFF)
