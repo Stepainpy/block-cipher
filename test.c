@@ -10,6 +10,7 @@
 #include "khazad/khazad.h"
 #include "magma/magma.h"
 #include "speck/speck.h"
+#include "idea/idea.h"
 #include "rtea/rtea.h"
 #include "aes/aes.h"
 #include "lea/lea.h"
@@ -388,6 +389,29 @@ void cipher_test(void) {
                 "\x0f\x0e\x0d\x0c\x0b\x0a\x09\x08\x07\x06\x05\x04\x03\x02\x01\x00",
         /* P */ "\x65\x73\x6f\x68\x74\x20\x6e\x49\x20\x2e\x72\x65\x6e\x6f\x6f\x70",
         /* C */ "\x41\x09\x01\x04\x05\xc0\xf5\x3e\x4e\xee\xb4\x8d\x9c\x18\x8f\x43"
+    );
+    putchar('\n');
+
+    /* -------------------------------------------------------------------------------- */
+
+    puts("Testing International Data Encryption Algorithm (IDEA):");
+    cipher_test_case(
+        idea, IDEA_BLOCK_BYTE, 128,
+        /* K */ "\x00\x01\x00\x02\x00\x03\x00\x04\x00\x05\x00\x06\x00\x07\x00\x08",
+        /* P */ "\x00\x00\x00\x01\x00\x02\x00\x03",
+        /* C */ "\x11\xfb\xed\x2b\x01\x98\x6d\xe5"
+    );
+    cipher_test_case(
+        idea, IDEA_BLOCK_BYTE, 128,
+        /* K */ "\x00\x01\x00\x02\x00\x03\x00\x04\x00\x05\x00\x06\x00\x07\x00\x08",
+        /* P */ "\x01\x02\x03\x04\x05\x06\x07\x08",
+        /* C */ "\x54\x0e\x5f\xea\x18\xc2\xf8\xb1"
+    );
+    cipher_test_case(
+        idea, IDEA_BLOCK_BYTE, 128,
+        /* K */ "\x00\x01\x00\x02\x00\x03\x00\x04\x00\x05\x00\x06\x00\x07\x00\x08",
+        /* P */ "\x00\x19\x32\x4b\x64\x7d\x96\xaf",
+        /* C */ "\x9f\x0a\x0a\xb6\xe1\x0c\xed\x78"
     );
     putchar('\n');
 
