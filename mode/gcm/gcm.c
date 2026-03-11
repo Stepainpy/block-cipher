@@ -118,7 +118,7 @@ static void gcmi_inc(gcm_block_t block) {
 #endif
 }
 
-static void gcm_set_lens(gcm_block_t out, gcm_word_t lenA, gcm_word_t lenC) {
+static void gcmi_set_lens(gcm_block_t out, gcm_word_t lenA, gcm_word_t lenC) {
     lenA *= 8; lenC *= 8;
 #if BLKCPHR_IS_LITTLE
     lenA = blkcphr_bswap64(lenA);
@@ -171,7 +171,7 @@ int gcm_encryption(void) {
             return 1;
     }
 
-    gcm_set_lens(C, gcmi_ctx.auth_data_sz, cipher_size);
+    gcmi_set_lens(C, gcmi_ctx.auth_data_sz, cipher_size);
     gcmi_xor(T, C);
     gcmi_gfmul(T, H);
 
@@ -225,7 +225,7 @@ int gcm_decryption(void) {
             return 1;
     }
 
-    gcm_set_lens(C, gcmi_ctx.auth_data_sz, cipher_size);
+    gcmi_set_lens(C, gcmi_ctx.auth_data_sz, cipher_size);
     gcmi_xor(T, C);
     gcmi_gfmul(T, H);
 
