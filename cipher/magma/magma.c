@@ -48,17 +48,19 @@ static magma_word_t magmai_subst(magma_word_t X) {
 static void magmai_write_to_pair(magma_word_t* L, magma_word_t* R, const void* src) {
     memcpy(L, (const char*)src + 0, 4);
     memcpy(R, (const char*)src + 4, 4);
-#if BLKCPHR_IS_LITTLE
+    BLKCPHR_IF(BLKCPHR_IS_LITTLE, BLKCPHR_BSWAP_32_PAIR(*L, *R));
+/* #if BLKCPHR_IS_LITTLE
     *L = blkcphr_bswap32(*L);
     *R = blkcphr_bswap32(*R);
-#endif
+#endif */
 }
 
 static void magmai_read_from_pair(void* dst, magma_word_t L, magma_word_t R) {
-    #if BLKCPHR_IS_LITTLE
-        L = blkcphr_bswap32(L);
-        R = blkcphr_bswap32(R);
-    #endif
+/* #if BLKCPHR_IS_LITTLE
+    L = blkcphr_bswap32(L);
+    R = blkcphr_bswap32(R);
+#endif */
+    BLKCPHR_IF(BLKCPHR_IS_LITTLE, BLKCPHR_BSWAP_32_PAIR(L, R));
     memcpy((char*)dst + 0, &L, 4);
     memcpy((char*)dst + 4, &R, 4);
 }

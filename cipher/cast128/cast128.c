@@ -100,12 +100,13 @@ int cast128_init(const void* key, int bits) {
 
     memset(X, 0, sizeof X);
     memcpy(X, key, bits / 8);
-#if BLKCPHR_IS_LITTLE
+    BLKCPHR_IF(BLKCPHR_IS_LITTLE, BLKCPHR_BSWAP_32x4(X));
+/* #if BLKCPHR_IS_LITTLE
     X[0] = blkcphr_bswap32(X[0]);
     X[1] = blkcphr_bswap32(X[1]);
     X[2] = blkcphr_bswap32(X[2]);
     X[3] = blkcphr_bswap32(X[3]);
-#endif
+#endif */
 
     Z[0] = X[0] ^ S5[xD] ^ S6[xF] ^ S7[xC] ^ S8[xE] ^ S7[x8];
     Z[1] = X[2] ^ S5[z0] ^ S6[z2] ^ S7[z1] ^ S8[z3] ^ S8[xA];
@@ -181,17 +182,19 @@ int cast128_init(const void* key, int bits) {
 static void cast128i_write_to_pair(cast128_word_t* L, cast128_word_t* R, const void* src) {
     memcpy(L, (const char*)src + 0, sizeof *L);
     memcpy(R, (const char*)src + 4, sizeof *R);
-#if BLKCPHR_IS_LITTLE
+    BLKCPHR_IF(BLKCPHR_IS_LITTLE, BLKCPHR_BSWAP_32_PAIR(*L, *R));
+/* #if BLKCPHR_IS_LITTLE
     *L = blkcphr_bswap32(*L);
     *R = blkcphr_bswap32(*R);
-#endif
+#endif */
 }
 
 static void cast128i_read_from_pair(void* dst, cast128_word_t L, cast128_word_t R) {
-#if BLKCPHR_IS_LITTLE
+/* #if BLKCPHR_IS_LITTLE
     L = blkcphr_bswap32(L);
     R = blkcphr_bswap32(R);
-#endif
+#endif */
+    BLKCPHR_IF(BLKCPHR_IS_LITTLE, BLKCPHR_BSWAP_32_PAIR(L, R));
     memcpy((char*)dst + 0, &L, sizeof L);
     memcpy((char*)dst + 4, &R, sizeof R);
 }

@@ -103,6 +103,128 @@ typedef unsigned __int64 blkcphr_u64_t;
 #  error Unsupported compiler
 #endif
 
+/* If condition for preprocessor */
+
+#define BLKCPHR_CONCAT_(left, right) left ## right
+#define BLKCPHR_CONCAT(left, right) BLKCPHR_CONCAT_(left, right)
+
+#define BLKCPHR_IF_0(stmt)
+#define BLKCPHR_IF_1(stmt) stmt
+#define BLKCPHR_IF(cond, stmt) BLKCPHR_CONCAT(BLKCPHR_IF_, cond)(stmt)
+
+/* Byte swapping pair and blocks */
+
+#define BLKCPHR_BSWAP_16_ONE(value) do { \
+    (value) = blkcphr_bswap16(value); \
+} while (0)
+
+#define BLKCPHR_BSWAP_16_PAIR(L, R) do { \
+    (L) = blkcphr_bswap16(L); \
+    (R) = blkcphr_bswap16(R); \
+} while (0)
+
+#define BLKCPHR_BSWAP_16x2(array) do { \
+    (array)[0] = blkcphr_bswap16((array)[0]); \
+    (array)[1] = blkcphr_bswap16((array)[1]); \
+} while (0)
+
+#define BLKCPHR_BSWAP_16x4(array) do { \
+    (array)[0] = blkcphr_bswap16((array)[0]); \
+    (array)[1] = blkcphr_bswap16((array)[1]); \
+    (array)[2] = blkcphr_bswap16((array)[2]); \
+    (array)[3] = blkcphr_bswap16((array)[3]); \
+} while (0)
+
+#define BLKCPHR_BSWAP_16x8(array) do { \
+    (array)[0] = blkcphr_bswap16((array)[0]); \
+    (array)[1] = blkcphr_bswap16((array)[1]); \
+    (array)[2] = blkcphr_bswap16((array)[2]); \
+    (array)[3] = blkcphr_bswap16((array)[3]); \
+    (array)[4] = blkcphr_bswap16((array)[4]); \
+    (array)[5] = blkcphr_bswap16((array)[5]); \
+    (array)[6] = blkcphr_bswap16((array)[6]); \
+    (array)[7] = blkcphr_bswap16((array)[7]); \
+} while (0)
+
+#define BLKCPHR_BSWAP_32_ONE(value) do { \
+    (value) = blkcphr_bswap32(value); \
+} while (0)
+
+#define BLKCPHR_BSWAP_32_PAIR(L, R) do { \
+    (L) = blkcphr_bswap32(L); \
+    (R) = blkcphr_bswap32(R); \
+} while (0)
+
+#define BLKCPHR_BSWAP_32x2(array) do { \
+    (array)[0] = blkcphr_bswap32((array)[0]); \
+    (array)[1] = blkcphr_bswap32((array)[1]); \
+} while (0)
+
+#define BLKCPHR_BSWAP_32x4(array) do { \
+    (array)[0] = blkcphr_bswap32((array)[0]); \
+    (array)[1] = blkcphr_bswap32((array)[1]); \
+    (array)[2] = blkcphr_bswap32((array)[2]); \
+    (array)[3] = blkcphr_bswap32((array)[3]); \
+} while (0)
+
+#define BLKCPHR_BSWAP_32x6(array) do { \
+    (array)[0] = blkcphr_bswap32((array)[0]); \
+    (array)[1] = blkcphr_bswap32((array)[1]); \
+    (array)[2] = blkcphr_bswap32((array)[2]); \
+    (array)[3] = blkcphr_bswap32((array)[3]); \
+    (array)[4] = blkcphr_bswap32((array)[4]); \
+    (array)[5] = blkcphr_bswap32((array)[5]); \
+} while (0)
+
+#define BLKCPHR_BSWAP_32x8(array) do { \
+    (array)[0] = blkcphr_bswap32((array)[0]); \
+    (array)[1] = blkcphr_bswap32((array)[1]); \
+    (array)[2] = blkcphr_bswap32((array)[2]); \
+    (array)[3] = blkcphr_bswap32((array)[3]); \
+    (array)[4] = blkcphr_bswap32((array)[4]); \
+    (array)[5] = blkcphr_bswap32((array)[5]); \
+    (array)[6] = blkcphr_bswap32((array)[6]); \
+    (array)[7] = blkcphr_bswap32((array)[7]); \
+} while (0)
+
+#define BLKCPHR_BSWAP_64_ONE(value) do { \
+    (value) = blkcphr_bswap64(value); \
+} while (0)
+
+#define BLKCPHR_BSWAP_64_PAIR(L, R) do { \
+    (L) = blkcphr_bswap64(L); \
+    (R) = blkcphr_bswap64(R); \
+} while (0)
+
+#define BLKCPHR_BSWAP_64x2(array) do { \
+    (array)[0] = blkcphr_bswap64((array)[0]); \
+    (array)[1] = blkcphr_bswap64((array)[1]); \
+} while (0)
+
+#define BLKCPHR_BSWAP_64x3(array) do { \
+    (array)[0] = blkcphr_bswap64((array)[0]); \
+    (array)[1] = blkcphr_bswap64((array)[1]); \
+    (array)[2] = blkcphr_bswap64((array)[2]); \
+} while (0)
+
+#define BLKCPHR_BSWAP_64x4(array) do { \
+    (array)[0] = blkcphr_bswap64((array)[0]); \
+    (array)[1] = blkcphr_bswap64((array)[1]); \
+    (array)[2] = blkcphr_bswap64((array)[2]); \
+    (array)[3] = blkcphr_bswap64((array)[3]); \
+} while (0)
+
+#define BLKCPHR_BSWAP_64x8(array) do { \
+    (array)[0] = blkcphr_bswap64((array)[0]); \
+    (array)[1] = blkcphr_bswap64((array)[1]); \
+    (array)[2] = blkcphr_bswap64((array)[2]); \
+    (array)[3] = blkcphr_bswap64((array)[3]); \
+    (array)[4] = blkcphr_bswap64((array)[4]); \
+    (array)[5] = blkcphr_bswap64((array)[5]); \
+    (array)[6] = blkcphr_bswap64((array)[6]); \
+    (array)[7] = blkcphr_bswap64((array)[7]); \
+} while (0)
+
 /* Bit rotation functions */
 
 #ifdef BLKCPHR_USE_ROTL32

@@ -72,10 +72,12 @@ static void mgm16i_gfmul(mgm16_block_t out, const mgm16_block_t lhs, const mgm16
     memcpy(&Lup, lhs, sizeof Lup); memcpy(&Llo, lhs + 8, sizeof Llo);
     memcpy(&Rup, rhs, sizeof Rup); memcpy(&Rlo, rhs + 8, sizeof Rlo);
 
-#if BLKCPHR_IS_LITTLE
+    BLKCPHR_IF(BLKCPHR_IS_LITTLE, BLKCPHR_BSWAP_64_PAIR(Lup, Llo));
+    BLKCPHR_IF(BLKCPHR_IS_LITTLE, BLKCPHR_BSWAP_64_PAIR(Rup, Rlo));
+/* #if BLKCPHR_IS_LITTLE
     Lup = blkcphr_bswap64(Lup); Llo = blkcphr_bswap64(Llo);
     Rup = blkcphr_bswap64(Rup); Rlo = blkcphr_bswap64(Rlo);
-#endif
+#endif */
 
     for (i = 0; i < 128; i++) {
         if (Rlo & 1)
@@ -92,10 +94,11 @@ static void mgm16i_gfmul(mgm16_block_t out, const mgm16_block_t lhs, const mgm16
         if (msb) Llo ^= 0x87;
     }
 
-#if BLKCPHR_IS_LITTLE
+    BLKCPHR_IF(BLKCPHR_IS_LITTLE, BLKCPHR_BSWAP_64_PAIR(Tup, Tlo));
+/* #if BLKCPHR_IS_LITTLE
     Tup = blkcphr_bswap64(Tup);
     Tlo = blkcphr_bswap64(Tlo);
-#endif
+#endif */
 
     memcpy(out + 0, &Tup, sizeof Tup);
     memcpy(out + 8, &Tlo, sizeof Tlo);
@@ -109,32 +112,37 @@ static void mgm16i_xor(mgm16_block_t out, const mgm16_block_t arg) {
 
 static void mgm16i_incl(mgm16_block_t block) {
     mgm16_word_t* B = (void*)block;
-#if BLKCPHR_IS_LITTLE
+    BLKCPHR_IF(BLKCPHR_IS_LITTLE, BLKCPHR_BSWAP_64_ONE(B[0]));
+/* #if BLKCPHR_IS_LITTLE
     B[0] = blkcphr_bswap64(B[0]);
-#endif
+#endif */
     ++B[0];
-#if BLKCPHR_IS_LITTLE
+    BLKCPHR_IF(BLKCPHR_IS_LITTLE, BLKCPHR_BSWAP_64_ONE(B[0]));
+/* #if BLKCPHR_IS_LITTLE
     B[0] = blkcphr_bswap64(B[0]);
-#endif
+#endif */
 }
 
 static void mgm16i_incr(mgm16_block_t block) {
     mgm16_word_t* B = (void*)block;
-#if BLKCPHR_IS_LITTLE
+    BLKCPHR_IF(BLKCPHR_IS_LITTLE, BLKCPHR_BSWAP_64_ONE(B[1]));
+/* #if BLKCPHR_IS_LITTLE
     B[1] = blkcphr_bswap64(B[1]);
-#endif
+#endif */
     ++B[1];
-#if BLKCPHR_IS_LITTLE
+    BLKCPHR_IF(BLKCPHR_IS_LITTLE, BLKCPHR_BSWAP_64_ONE(B[1]));
+/* #if BLKCPHR_IS_LITTLE
     B[1] = blkcphr_bswap64(B[1]);
-#endif
+#endif */
 }
 
 static void mgm16i_set_lens(mgm16_block_t out, mgm16_word_t lenA, mgm16_word_t lenC) {
     lenA *= 8; lenC *= 8;
-#if BLKCPHR_IS_LITTLE
+    BLKCPHR_IF(BLKCPHR_IS_LITTLE, BLKCPHR_BSWAP_64_PAIR(lenA, lenC));
+/* #if BLKCPHR_IS_LITTLE
     lenA = blkcphr_bswap64(lenA);
     lenC = blkcphr_bswap64(lenC);
-#endif
+#endif */
     memcpy(out + 0, &lenA, sizeof lenA);
     memcpy(out + 8, &lenC, sizeof lenC);
 }

@@ -40,17 +40,19 @@ static struct {
 static void rteai_write_to_pair(rtea_word_t* L, rtea_word_t* R, const void* src) {
     memcpy(L, (const char*)src + 0, 4);
     memcpy(R, (const char*)src + 4, 4);
-#if BLKCPHR_IS_BIG
+    BLKCPHR_IF(BLKCPHR_IS_BIG, BLKCPHR_BSWAP_32_PAIR(*L, *R));
+/* #if BLKCPHR_IS_BIG
     *L = blkcphr_bswap32(*L);
     *R = blkcphr_bswap32(*R);
-#endif
+#endif */
 }
 
 static void rteai_read_from_pair(void* dst, rtea_word_t L, rtea_word_t R) {
-#if BLKCPHR_IS_BIG
+/* #if BLKCPHR_IS_BIG
     L = blkcphr_bswap32(L);
     R = blkcphr_bswap32(R);
-#endif
+#endif */
+    BLKCPHR_IF(BLKCPHR_IS_BIG, BLKCPHR_BSWAP_32_PAIR(L, R));
     memcpy((char*)dst + 0, &L, 4);
     memcpy((char*)dst + 4, &R, 4);
 }

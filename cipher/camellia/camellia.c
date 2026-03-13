@@ -75,19 +75,21 @@ static void camei_rotl128(came_block_t in, came_word_t s) {
 
 static void camei_write_to_block(came_block_t out, const void* src) {
     memcpy(out, src, sizeof(came_block_t));
-#if BLKCPHR_IS_LITTLE
+    BLKCPHR_IF(BLKCPHR_IS_LITTLE, BLKCPHR_BSWAP_64x2(out));
+/* #if BLKCPHR_IS_LITTLE
     out[0] = blkcphr_bswap64(out[0]);
     out[1] = blkcphr_bswap64(out[1]);
-#endif
+#endif */
 }
 
 static void camei_read_from_block(void* dst, const came_block_t in) {
     came_block_t T;
     memcpy(T, in, sizeof T);
-#if BLKCPHR_IS_LITTLE
+    BLKCPHR_IF(BLKCPHR_IS_LITTLE, BLKCPHR_BSWAP_64x2(T));
+/* #if BLKCPHR_IS_LITTLE
     T[0] = blkcphr_bswap64(T[0]);
     T[1] = blkcphr_bswap64(T[1]);
-#endif
+#endif */
     memcpy(dst, T, sizeof T);
 }
 
@@ -217,9 +219,10 @@ static void camei_init_key192(const void* key) {
 
     camei_write_to_block(KL, key);
     temp = ((const came_word_t*)key)[2];
-#if BLKCPHR_IS_LITTLE
+    BLKCPHR_IF(BLKCPHR_IS_LITTLE, BLKCPHR_BSWAP_64_ONE(temp));
+/* #if BLKCPHR_IS_LITTLE
     temp = blkcphr_bswap64(temp);
-#endif
+#endif */
     KR[0] = temp; KR[1] = ~temp;
 
     D[0] = KL[0] ^ KR[0]; D[1] = KL[1] ^ KR[1];

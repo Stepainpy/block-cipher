@@ -70,10 +70,11 @@ static void mgm8i_gfmul(mgm8_block_t out, const mgm8_block_t lhs, const mgm8_blo
 
     memcpy(&L, lhs, sizeof L);
     memcpy(&R, rhs, sizeof R);
-#if BLKCPHR_IS_LITTLE
+    BLKCPHR_IF(BLKCPHR_IS_LITTLE, BLKCPHR_BSWAP_64_PAIR(L, R));
+/* #if BLKCPHR_IS_LITTLE
     L = blkcphr_bswap64(L);
     R = blkcphr_bswap64(R);
-#endif
+#endif */
 
     for (i = 0; i < 64; i++) {
         if (R & 1) T ^= L;
@@ -84,9 +85,10 @@ static void mgm8i_gfmul(mgm8_block_t out, const mgm8_block_t lhs, const mgm8_blo
         if (msb) L ^= 0x1b;
     }
 
-#if BLKCPHR_IS_LITTLE
+    BLKCPHR_IF(BLKCPHR_IS_LITTLE, BLKCPHR_BSWAP_64_ONE(T));
+/* #if BLKCPHR_IS_LITTLE
     T = blkcphr_bswap64(T);
-#endif
+#endif */
     memcpy(out, &T, sizeof T);
 }
 
@@ -98,32 +100,37 @@ static void mgm8i_xor(mgm8_block_t out, const mgm8_block_t arg) {
 
 static void mgm8i_incl(mgm8_block_t block) {
     mgm8_half_t* B = (void*)block;
-#if BLKCPHR_IS_LITTLE
+    BLKCPHR_IF(BLKCPHR_IS_LITTLE, BLKCPHR_BSWAP_32_ONE(B[0]));
+/* #if BLKCPHR_IS_LITTLE
     B[0] = blkcphr_bswap32(B[0]);
-#endif
+#endif */
     ++B[0];
-#if BLKCPHR_IS_LITTLE
+    BLKCPHR_IF(BLKCPHR_IS_LITTLE, BLKCPHR_BSWAP_32_ONE(B[0]));
+/* #if BLKCPHR_IS_LITTLE
     B[0] = blkcphr_bswap32(B[0]);
-#endif
+#endif */
 }
 
 static void mgm8i_incr(mgm8_block_t block) {
     mgm8_half_t* B = (void*)block;
-#if BLKCPHR_IS_LITTLE
+    BLKCPHR_IF(BLKCPHR_IS_LITTLE, BLKCPHR_BSWAP_32_ONE(B[1]));
+/* #if BLKCPHR_IS_LITTLE
     B[1] = blkcphr_bswap32(B[1]);
-#endif
+#endif */
     ++B[1];
-#if BLKCPHR_IS_LITTLE
+    BLKCPHR_IF(BLKCPHR_IS_LITTLE, BLKCPHR_BSWAP_32_ONE(B[1]));
+/* #if BLKCPHR_IS_LITTLE
     B[1] = blkcphr_bswap32(B[1]);
-#endif
+#endif */
 }
 
 static void mgm8i_set_lens(mgm8_block_t out, mgm8_half_t lenA, mgm8_half_t lenC) {
     lenA *= 8; lenC *= 8;
-#if BLKCPHR_IS_LITTLE
+    BLKCPHR_IF(BLKCPHR_IS_LITTLE, BLKCPHR_BSWAP_32_PAIR(lenA, lenC));
+/* #if BLKCPHR_IS_LITTLE
     lenA = blkcphr_bswap32(lenA);
     lenC = blkcphr_bswap32(lenC);
-#endif
+#endif */
     memcpy(out + 0, &lenA, sizeof lenA);
     memcpy(out + 4, &lenC, sizeof lenC);
 }

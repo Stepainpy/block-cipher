@@ -200,23 +200,25 @@ static void clefiai_GFN4_inv(
 
 static void clefiai_write_to_block(clefia_block_t dst, const void* src) {
     memcpy(dst, src, CLEFIA_BLOCK_BYTE);
-#if BLKCPHR_IS_LITTLE
+    BLKCPHR_IF(BLKCPHR_IS_LITTLE, BLKCPHR_BSWAP_32x4(dst));
+/* #if BLKCPHR_IS_LITTLE
     dst[0] = blkcphr_bswap32(dst[0]);
     dst[1] = blkcphr_bswap32(dst[1]);
     dst[2] = blkcphr_bswap32(dst[2]);
     dst[3] = blkcphr_bswap32(dst[3]);
-#endif
+#endif */
 }
 
 static void clefiai_read_from_block(void* dst, const clefia_block_t src) {
     clefia_block_t T;
     memcpy(T, src, CLEFIA_BLOCK_BYTE);
-#if BLKCPHR_IS_LITTLE
+    BLKCPHR_IF(BLKCPHR_IS_LITTLE, BLKCPHR_BSWAP_32x4(T));
+/* #if BLKCPHR_IS_LITTLE
     T[0] = blkcphr_bswap32(T[0]);
     T[1] = blkcphr_bswap32(T[1]);
     T[2] = blkcphr_bswap32(T[2]);
     T[3] = blkcphr_bswap32(T[3]);
-#endif
+#endif */
     memcpy(dst, T, CLEFIA_BLOCK_BYTE);
 }
 
