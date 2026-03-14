@@ -88,16 +88,6 @@ static cast256_word_t cast256i_F3(cast256_word_t in, cast256_word_t km, cast256_
 static void cast256i_write_to_chunk(cast256_chunk_t out, const void* src, int words) {
     memcpy(out, src, sizeof(cast256_word_t) * words);
     BLKCPHR_IF_LITTLE(BLKCPHR_BSWAP_32x8(out));
-/* #if BLKCPHR_IS_LITTLE
-    out[0] = blkcphr_bswap32(out[0]);
-    out[1] = blkcphr_bswap32(out[1]);
-    out[2] = blkcphr_bswap32(out[2]);
-    out[3] = blkcphr_bswap32(out[3]);
-    out[4] = blkcphr_bswap32(out[4]);
-    out[5] = blkcphr_bswap32(out[5]);
-    out[6] = blkcphr_bswap32(out[6]);
-    out[7] = blkcphr_bswap32(out[7]);
-#endif */
 }
 
 static void cast256i_kappa(cast256_chunk_t x, int i) {
@@ -134,24 +124,12 @@ int cast256_init(const void* key, int bits) {
 static void cast256i_write_to_block(cast256_block_t out, const void* src) {
     memcpy(out, src, sizeof(cast256_block_t));
     BLKCPHR_IF_LITTLE(BLKCPHR_BSWAP_32x4(out));
-/* #if BLKCPHR_IS_LITTLE
-    out[0] = blkcphr_bswap32(out[0]);
-    out[1] = blkcphr_bswap32(out[1]);
-    out[2] = blkcphr_bswap32(out[2]);
-    out[3] = blkcphr_bswap32(out[3]);
-#endif */
 }
 
 static void cast256i_read_from_block(void* dst, const cast256_block_t in) {
     cast256_block_t T;
     memcpy(T, in, sizeof T);
     BLKCPHR_IF_LITTLE(BLKCPHR_BSWAP_32x4(T));
-/* #if BLKCPHR_IS_LITTLE
-    T[0] = blkcphr_bswap32(T[0]);
-    T[1] = blkcphr_bswap32(T[1]);
-    T[2] = blkcphr_bswap32(T[2]);
-    T[3] = blkcphr_bswap32(T[3]);
-#endif */
     memcpy(dst, T, sizeof T);
 }
 
