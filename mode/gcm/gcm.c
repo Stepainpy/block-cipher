@@ -67,7 +67,7 @@ int gcm_set_encode_func(void (*enc)(void*, const void*)) {
 static void gcmi_gfmul(gcm_block_t out, const gcm_block_t arg) {
     gcm_word_t Llo, Lup, Rlo, Rup;
     gcm_word_t Tlo = 0, Tup = 0;
-    int i, msb;
+    int i, bit;
 
     memcpy(&Lup, out, sizeof Lup); memcpy(&Llo, out + 8, sizeof Llo);
     memcpy(&Rup, arg, sizeof Rup); memcpy(&Rlo, arg + 8, sizeof Rlo);
@@ -78,18 +78,20 @@ static void gcmi_gfmul(gcm_block_t out, const gcm_block_t arg) {
 #endif
 
     for (i = 0; i < 128; i++) {
-        if (Rlo & 1)
-            Tup ^= Lup, Tlo ^= Llo;
-
-        Rlo = Rlo >> 1 | Rup << 63;
-        Rup = Rup >> 1            ;
-
-        msb =            Lup >> 63;
+        bit =            Lup >> 63;
         Lup = Lup << 1 | Llo >> 63;
         Llo = Llo << 1            ;
 
+        if (bit) Tup ^= Rup, Tlo ^= Rlo;
+
+        bit =       0 != Rlo << 63;
+        Rlo = Rlo >> 1 | Rup << 63;
+        Rup = Rup >> 1            ;
+
         /* x^128 + x^7 + x^2 + x + 1 */
-        if (msb) Llo ^= 0x87;
+        BLKCPHR_U64_WARN_BEGIN
+        if (bit) Rup ^= 0xe100000000000000;
+        BLKCPHR_U64_WARN_END
     }
 
 #if BLKCPHR_IS_LITTLE
