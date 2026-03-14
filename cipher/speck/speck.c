@@ -67,7 +67,7 @@ static void specki_init_key128(const void* key) {
     speck_word_t K[2], i;
 
     memcpy(K, key, sizeof K);
-    BLKCPHR_IF(BLKCPHR_IS_LITTLE, BLKCPHR_BSWAP_64x2(K));
+    BLKCPHR_IF_LITTLE(BLKCPHR_BSWAP_64x2(K));
 /* #if BLKCPHR_IS_LITTLE
     K[0] = blkcphr_bswap64(K[0]);
     K[1] = blkcphr_bswap64(K[1]);
@@ -86,7 +86,7 @@ static void specki_init_key192(const void* key) {
     speck_word_t K[3], i;
 
     memcpy(K, key, sizeof K);
-    BLKCPHR_IF(BLKCPHR_IS_LITTLE, BLKCPHR_BSWAP_64x3(K));
+    BLKCPHR_IF_LITTLE(BLKCPHR_BSWAP_64x3(K));
 /* #if BLKCPHR_IS_LITTLE
     K[0] = blkcphr_bswap64(K[0]);
     K[1] = blkcphr_bswap64(K[1]);
@@ -106,7 +106,7 @@ static void specki_init_key256(const void* key) {
     speck_word_t K[4], i;
 
     memcpy(K, key, sizeof K);
-    BLKCPHR_IF(BLKCPHR_IS_LITTLE, BLKCPHR_BSWAP_64x4(K));
+    BLKCPHR_IF_LITTLE(BLKCPHR_BSWAP_64x4(K));
 /* #if BLKCPHR_IS_LITTLE
     K[0] = blkcphr_bswap64(K[0]);
     K[1] = blkcphr_bswap64(K[1]);
@@ -135,7 +135,7 @@ int speck_init(const void* key, int bits) {
 static void specki_write_to_pair(speck_word_t* L, speck_word_t* R, const void* src) {
     memcpy(L, (const char*)src + 0, sizeof *L);
     memcpy(R, (const char*)src + 8, sizeof *R);
-    BLKCPHR_IF(BLKCPHR_IS_LITTLE, BLKCPHR_BSWAP_64_PAIR(*L, *R));
+    BLKCPHR_IF_LITTLE(BLKCPHR_BSWAP_64_PAIR(*L, *R));
 /* #if BLKCPHR_IS_LITTLE
     *L = blkcphr_bswap64(*L);
     *R = blkcphr_bswap64(*R);
@@ -147,7 +147,7 @@ static void specki_read_from_pair(void* dst, speck_word_t L, speck_word_t R) {
     L = blkcphr_bswap64(L);
     R = blkcphr_bswap64(R);
 #endif */
-    BLKCPHR_IF(BLKCPHR_IS_LITTLE, BLKCPHR_BSWAP_64_PAIR(L, R));
+    BLKCPHR_IF_LITTLE(BLKCPHR_BSWAP_64_PAIR(L, R));
     memcpy((char*)dst + 0, &L, sizeof L);
     memcpy((char*)dst + 8, &R, sizeof R);
 }

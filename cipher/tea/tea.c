@@ -34,7 +34,7 @@ static struct {
 static void teai_write_to_pair(tea_word_t* L, tea_word_t* R, const void* src) {
     memcpy(L, (const char*)src + 0, 4);
     memcpy(R, (const char*)src + 4, 4);
-    BLKCPHR_IF(BLKCPHR_IS_BIG, BLKCPHR_BSWAP_32_PAIR(*L, *R));
+    BLKCPHR_IF_BIG(BLKCPHR_BSWAP_32_PAIR(*L, *R));
 /* #if BLKCPHR_IS_BIG
     *L = blkcphr_bswap32(*L);
     *R = blkcphr_bswap32(*R);
@@ -46,7 +46,7 @@ static void teai_read_from_pair(void* dst, tea_word_t L, tea_word_t R) {
     L = blkcphr_bswap32(L);
     R = blkcphr_bswap32(R);
 #endif */
-    BLKCPHR_IF(BLKCPHR_IS_BIG, BLKCPHR_BSWAP_32_PAIR(L, R));
+    BLKCPHR_IF_BIG(BLKCPHR_BSWAP_32_PAIR(L, R));
     memcpy((char*)dst + 0, &L, 4);
     memcpy((char*)dst + 4, &R, 4);
 }

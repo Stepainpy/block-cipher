@@ -112,6 +112,9 @@ typedef unsigned __int64 blkcphr_u64_t;
 #define BLKCPHR_IF_1(stmt) stmt
 #define BLKCPHR_IF(cond, stmt) BLKCPHR_CONCAT(BLKCPHR_IF_, cond)(stmt)
 
+#define BLKCPHR_IF_LITTLE(stmt) BLKCPHR_IF(BLKCPHR_IS_LITTLE, stmt)
+#define BLKCPHR_IF_BIG(stmt) BLKCPHR_IF(BLKCPHR_IS_BIG, stmt)
+
 /* Byte swapping pair and blocks */
 
 #define BLKCPHR_BSWAP_16_ONE(value) do { \

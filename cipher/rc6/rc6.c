@@ -67,7 +67,7 @@ int rc6_init(const void* key, int bits) {
 
 static void rc6i_write_to_block(rc6_block_t out, const void* src) {
     memcpy(out, src, sizeof(rc6_block_t));
-    BLKCPHR_IF(BLKCPHR_IS_BIG, BLKCPHR_BSWAP_32x4(out));
+    BLKCPHR_IF_BIG(BLKCPHR_BSWAP_32x4(out));
 /* #if BLKCPHR_IS_BIG
     out[0] = blkcphr_bswap32(out[0]);
     out[1] = blkcphr_bswap32(out[1]);
@@ -79,7 +79,7 @@ static void rc6i_write_to_block(rc6_block_t out, const void* src) {
 static void rc6i_read_from_block(void* dst, const rc6_block_t in) {
     rc6_block_t T;
     memcpy(T, in, sizeof(rc6_block_t));
-    BLKCPHR_IF(BLKCPHR_IS_BIG, BLKCPHR_BSWAP_32x4(T));
+    BLKCPHR_IF_BIG(BLKCPHR_BSWAP_32x4(T));
 /* #if BLKCPHR_IS_BIG
     T[0] = blkcphr_bswap32(T[0]);
     T[1] = blkcphr_bswap32(T[1]);

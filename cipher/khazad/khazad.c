@@ -128,7 +128,7 @@ int khazad_init(const void* key, int bits) {
 
     memcpy(&L, (const char*)key + 0, 8);
     memcpy(&R, (const char*)key + 8, 8);
-    BLKCPHR_IF(BLKCPHR_IS_LITTLE, BLKCPHR_BSWAP_64_PAIR(L, R));
+    BLKCPHR_IF_LITTLE(BLKCPHR_BSWAP_64_PAIR(L, R));
 /* #if BLKCPHR_IS_LITTLE
     L = blkcphr_bswap64(L);
     R = blkcphr_bswap64(R);
@@ -146,7 +146,7 @@ int khazad_init(const void* key, int bits) {
 static khazad_word_t khazadi_write_to_block(const void* src) {
     khazad_word_t block;
     memcpy(&block, src, KHAZAD_BLOCK_BYTE);
-    BLKCPHR_IF(BLKCPHR_IS_LITTLE, BLKCPHR_BSWAP_64_ONE(block));
+    BLKCPHR_IF_LITTLE(BLKCPHR_BSWAP_64_ONE(block));
 /* #if BLKCPHR_IS_LITTLE
     block = blkcphr_bswap64(block);
 #endif */
@@ -157,7 +157,7 @@ static void khazadi_read_from_block(void* dst, khazad_word_t block) {
 /* #if BLKCPHR_IS_LITTLE
     block = blkcphr_bswap64(block);
 #endif */
-    BLKCPHR_IF(BLKCPHR_IS_LITTLE, BLKCPHR_BSWAP_64_ONE(block));
+    BLKCPHR_IF_LITTLE(BLKCPHR_BSWAP_64_ONE(block));
     memcpy(dst, &block, KHAZAD_BLOCK_BYTE);
 }
 

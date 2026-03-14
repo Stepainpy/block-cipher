@@ -72,8 +72,8 @@ static void mgm16i_gfmul(mgm16_block_t out, const mgm16_block_t lhs, const mgm16
     memcpy(&Lup, lhs, sizeof Lup); memcpy(&Llo, lhs + 8, sizeof Llo);
     memcpy(&Rup, rhs, sizeof Rup); memcpy(&Rlo, rhs + 8, sizeof Rlo);
 
-    BLKCPHR_IF(BLKCPHR_IS_LITTLE, BLKCPHR_BSWAP_64_PAIR(Lup, Llo));
-    BLKCPHR_IF(BLKCPHR_IS_LITTLE, BLKCPHR_BSWAP_64_PAIR(Rup, Rlo));
+    BLKCPHR_IF_LITTLE(BLKCPHR_BSWAP_64_PAIR(Lup, Llo));
+    BLKCPHR_IF_LITTLE(BLKCPHR_BSWAP_64_PAIR(Rup, Rlo));
 /* #if BLKCPHR_IS_LITTLE
     Lup = blkcphr_bswap64(Lup); Llo = blkcphr_bswap64(Llo);
     Rup = blkcphr_bswap64(Rup); Rlo = blkcphr_bswap64(Rlo);
@@ -94,7 +94,7 @@ static void mgm16i_gfmul(mgm16_block_t out, const mgm16_block_t lhs, const mgm16
         if (msb) Llo ^= 0x87;
     }
 
-    BLKCPHR_IF(BLKCPHR_IS_LITTLE, BLKCPHR_BSWAP_64_PAIR(Tup, Tlo));
+    BLKCPHR_IF_LITTLE(BLKCPHR_BSWAP_64_PAIR(Tup, Tlo));
 /* #if BLKCPHR_IS_LITTLE
     Tup = blkcphr_bswap64(Tup);
     Tlo = blkcphr_bswap64(Tlo);
@@ -112,12 +112,12 @@ static void mgm16i_xor(mgm16_block_t out, const mgm16_block_t arg) {
 
 static void mgm16i_incl(mgm16_block_t block) {
     mgm16_word_t* B = (void*)block;
-    BLKCPHR_IF(BLKCPHR_IS_LITTLE, BLKCPHR_BSWAP_64_ONE(B[0]));
+    BLKCPHR_IF_LITTLE(BLKCPHR_BSWAP_64_ONE(B[0]));
 /* #if BLKCPHR_IS_LITTLE
     B[0] = blkcphr_bswap64(B[0]);
 #endif */
     ++B[0];
-    BLKCPHR_IF(BLKCPHR_IS_LITTLE, BLKCPHR_BSWAP_64_ONE(B[0]));
+    BLKCPHR_IF_LITTLE(BLKCPHR_BSWAP_64_ONE(B[0]));
 /* #if BLKCPHR_IS_LITTLE
     B[0] = blkcphr_bswap64(B[0]);
 #endif */
@@ -125,12 +125,12 @@ static void mgm16i_incl(mgm16_block_t block) {
 
 static void mgm16i_incr(mgm16_block_t block) {
     mgm16_word_t* B = (void*)block;
-    BLKCPHR_IF(BLKCPHR_IS_LITTLE, BLKCPHR_BSWAP_64_ONE(B[1]));
+    BLKCPHR_IF_LITTLE(BLKCPHR_BSWAP_64_ONE(B[1]));
 /* #if BLKCPHR_IS_LITTLE
     B[1] = blkcphr_bswap64(B[1]);
 #endif */
     ++B[1];
-    BLKCPHR_IF(BLKCPHR_IS_LITTLE, BLKCPHR_BSWAP_64_ONE(B[1]));
+    BLKCPHR_IF_LITTLE(BLKCPHR_BSWAP_64_ONE(B[1]));
 /* #if BLKCPHR_IS_LITTLE
     B[1] = blkcphr_bswap64(B[1]);
 #endif */
@@ -138,7 +138,7 @@ static void mgm16i_incr(mgm16_block_t block) {
 
 static void mgm16i_set_lens(mgm16_block_t out, mgm16_word_t lenA, mgm16_word_t lenC) {
     lenA *= 8; lenC *= 8;
-    BLKCPHR_IF(BLKCPHR_IS_LITTLE, BLKCPHR_BSWAP_64_PAIR(lenA, lenC));
+    BLKCPHR_IF_LITTLE(BLKCPHR_BSWAP_64_PAIR(lenA, lenC));
 /* #if BLKCPHR_IS_LITTLE
     lenA = blkcphr_bswap64(lenA);
     lenC = blkcphr_bswap64(lenC);

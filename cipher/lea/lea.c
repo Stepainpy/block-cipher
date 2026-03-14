@@ -61,7 +61,7 @@ static struct {
 
 static void leai_write_to_4block(lea_4block_t out, const void* src) {
     memcpy(out, src, sizeof(lea_4block_t));
-    BLKCPHR_IF(BLKCPHR_IS_BIG, BLKCPHR_BSWAP_32x4(out));
+    BLKCPHR_IF_BIG(BLKCPHR_BSWAP_32x4(out));
 /* #if BLKCPHR_IS_BIG
     out[0] = blkcphr_bswap32(out[0]);
     out[1] = blkcphr_bswap32(out[1]);
@@ -72,7 +72,7 @@ static void leai_write_to_4block(lea_4block_t out, const void* src) {
 
 static void leai_write_to_6block(lea_6block_t out, const void* src) {
     memcpy(out, src, sizeof(lea_6block_t));
-    BLKCPHR_IF(BLKCPHR_IS_BIG, BLKCPHR_BSWAP_32x6(out));
+    BLKCPHR_IF_BIG(BLKCPHR_BSWAP_32x6(out));
 /* #if BLKCPHR_IS_BIG
     out[0] = blkcphr_bswap32(out[0]);
     out[1] = blkcphr_bswap32(out[1]);
@@ -85,7 +85,7 @@ static void leai_write_to_6block(lea_6block_t out, const void* src) {
 
 static void leai_write_to_8block(lea_8block_t out, const void* src) {
     memcpy(out, src, sizeof(lea_8block_t));
-    BLKCPHR_IF(BLKCPHR_IS_BIG, BLKCPHR_BSWAP_32x8(out));
+    BLKCPHR_IF_BIG(BLKCPHR_BSWAP_32x8(out));
 /* #if BLKCPHR_IS_BIG
     out[0] = blkcphr_bswap32(out[0]);
     out[1] = blkcphr_bswap32(out[1]);
@@ -101,7 +101,7 @@ static void leai_write_to_8block(lea_8block_t out, const void* src) {
 static void leai_read_from_4block(void* dst, const lea_4block_t in) {
     lea_4block_t T;
     memcpy(T, in, LEA_BLOCK_BYTE);
-    BLKCPHR_IF(BLKCPHR_IS_BIG, BLKCPHR_BSWAP_32x4(T));
+    BLKCPHR_IF_BIG(BLKCPHR_BSWAP_32x4(T));
 /* #if BLKCPHR_IS_BIG
     T[0] = blkcphr_bswap32(T[0]);
     T[1] = blkcphr_bswap32(T[1]);

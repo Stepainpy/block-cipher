@@ -60,7 +60,7 @@ int rc5_init(const void* key, int bits) {
 static void rc5i_write_to_pair(rc5_word_t* A, rc5_word_t* B, const void* src) {
     memcpy(A, (const char*)src + 0, sizeof *A);
     memcpy(B, (const char*)src + 4, sizeof *B);
-    BLKCPHR_IF(BLKCPHR_IS_BIG, BLKCPHR_BSWAP_32_PAIR(*A, *B));
+    BLKCPHR_IF_BIG(BLKCPHR_BSWAP_32_PAIR(*A, *B));
 /* #if BLKCPHR_IS_BIG
     *A = blkcphr_bswap32(*A);
     *B = blkcphr_bswap32(*B);
@@ -72,7 +72,7 @@ static void rc5i_read_from_pair(void* dst, rc5_word_t A, rc5_word_t B) {
     A = blkcphr_bswap32(A);
     B = blkcphr_bswap32(B);
 #endif */
-    BLKCPHR_IF(BLKCPHR_IS_BIG, BLKCPHR_BSWAP_32_PAIR(A, B));
+    BLKCPHR_IF_BIG(BLKCPHR_BSWAP_32_PAIR(A, B));
     memcpy((char*)dst + 0, &A, sizeof A);
     memcpy((char*)dst + 4, &B, sizeof B);
 }

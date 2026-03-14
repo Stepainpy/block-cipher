@@ -64,7 +64,7 @@ static void ideai_rotl25(idea_chunk_t in) {
 
 static void ideai_write_to_chunk(idea_chunk_t out, const void* src) {
     memcpy(out, src, sizeof(idea_chunk_t));
-    BLKCPHR_IF(BLKCPHR_IS_LITTLE, BLKCPHR_BSWAP_16x8(out));
+    BLKCPHR_IF_LITTLE(BLKCPHR_BSWAP_16x8(out));
 /* #if BLKCPHR_IS_LITTLE
     out[0] = blkcphr_bswap16(out[0]);
     out[1] = blkcphr_bswap16(out[1]);
@@ -79,7 +79,7 @@ static void ideai_write_to_chunk(idea_chunk_t out, const void* src) {
 
 static void ideai_write_to_block(idea_block_t out, const void* src) {
     memcpy(out, src, sizeof(idea_block_t));
-    BLKCPHR_IF(BLKCPHR_IS_LITTLE, BLKCPHR_BSWAP_16x4(out));
+    BLKCPHR_IF_LITTLE(BLKCPHR_BSWAP_16x4(out));
 /* #if BLKCPHR_IS_LITTLE
     out[0] = blkcphr_bswap16(out[0]);
     out[1] = blkcphr_bswap16(out[1]);
@@ -91,7 +91,7 @@ static void ideai_write_to_block(idea_block_t out, const void* src) {
 static void ideai_read_from_block(void* dst, const idea_block_t in) {
     idea_block_t T;
     memcpy(T, in, sizeof T);
-    BLKCPHR_IF(BLKCPHR_IS_LITTLE, BLKCPHR_BSWAP_16x4(T));
+    BLKCPHR_IF_LITTLE(BLKCPHR_BSWAP_16x4(T));
 /* #if BLKCPHR_IS_LITTLE
     T[0] = blkcphr_bswap16(T[0]);
     T[1] = blkcphr_bswap16(T[1]);
