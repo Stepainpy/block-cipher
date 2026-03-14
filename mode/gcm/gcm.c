@@ -71,11 +71,8 @@ static void gcmi_gfmul(gcm_block_t out, const gcm_block_t arg) {
 
     memcpy(&Lup, out, sizeof Lup); memcpy(&Llo, out + 8, sizeof Llo);
     memcpy(&Rup, arg, sizeof Rup); memcpy(&Rlo, arg + 8, sizeof Rlo);
-
-#if BLKCPHR_IS_LITTLE
-    Lup = blkcphr_bswap64(Lup); Llo = blkcphr_bswap64(Llo);
-    Rup = blkcphr_bswap64(Rup); Rlo = blkcphr_bswap64(Rlo);
-#endif
+    BLKCPHR_IF_LITTLE(BLKCPHR_BSWAP_64_PAIR(Lup, Llo));
+    BLKCPHR_IF_LITTLE(BLKCPHR_BSWAP_64_PAIR(Rup, Rlo));
 
     for (i = 0; i < 128; i++) {
         bit =            Lup >> 63;
@@ -94,11 +91,7 @@ static void gcmi_gfmul(gcm_block_t out, const gcm_block_t arg) {
         BLKCPHR_U64_WARN_END
     }
 
-#if BLKCPHR_IS_LITTLE
-    Tup = blkcphr_bswap64(Tup);
-    Tlo = blkcphr_bswap64(Tlo);
-#endif
-
+    BLKCPHR_IF_LITTLE(BLKCPHR_BSWAP_64_PAIR(Tup, Tlo));
     memcpy(out + 0, &Tup, sizeof Tup);
     memcpy(out + 8, &Tlo, sizeof Tlo);
 }
@@ -111,21 +104,14 @@ static void gcmi_xor(gcm_block_t out, const gcm_block_t arg) {
 
 static void gcmi_inc(gcm_block_t block) {
     blkcphr_u32_t* B = (void*)block;
-#if BLKCPHR_IS_LITTLE
-    B[3] = blkcphr_bswap32(B[3]);
-#endif
+    BLKCPHR_IF_LITTLE(BLKCPHR_BSWAP_32_ONE(B[3]));
     ++B[3];
-#if BLKCPHR_IS_LITTLE
-    B[3] = blkcphr_bswap32(B[3]);
-#endif
+    BLKCPHR_IF_LITTLE(BLKCPHR_BSWAP_32_ONE(B[3]));
 }
 
 static void gcmi_set_lens(gcm_block_t out, gcm_word_t lenA, gcm_word_t lenC) {
     lenA *= 8; lenC *= 8;
-#if BLKCPHR_IS_LITTLE
-    lenA = blkcphr_bswap64(lenA);
-    lenC = blkcphr_bswap64(lenC);
-#endif
+    BLKCPHR_IF_LITTLE(BLKCPHR_BSWAP_64_PAIR(lenA, lenC));
     memcpy(out + 0, &lenA, sizeof lenA);
     memcpy(out + 8, &lenC, sizeof lenC);
 }
