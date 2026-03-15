@@ -1,7 +1,7 @@
 #ifndef BLOCK_CIPHER_CONFIG_H
 #define BLOCK_CIPHER_CONFIG_H
 
-/* Compiler detection */
+/* Detecting compiler */
 
 #if defined(__GNUC__)
 #  define BLKCPHR_ON_GNUC 1
@@ -12,6 +12,29 @@
 #  endif
 #elif defined(_MSC_VER)
 #  define BLKCPHR_ON_MSVC 1
+#else
+#  error Unsupported compiler
+#endif
+
+/* Detecting endianness */
+
+#if BLKCPHR_ON_GNUC
+#  if defined(__BYTE_ORDER__)
+#    if   __BYTE_ORDER__ == __ORDER_LITTLE_ENDIAN__
+#      define BLKCPHR_IS_LITTLE 1
+#      define BLKCPHR_IS_BIG    0
+#    elif __BYTE_ORDER__ == __ORDER_BIG_ENDIAN__
+#      define BLKCPHR_IS_LITTLE 0
+#      define BLKCPHR_IS_BIG    1
+#    else
+#      error Unknown endianness
+#    endif
+#  else
+#    error Not defined __BYTE_ORDER__
+#  endif
+#elif BLKCPHR_ON_MSVC
+#  define BLKCPHR_IS_LITTLE 1
+#  define BLKCPHR_IS_BIG    0
 #else
 #  error Unsupported compiler
 #endif
@@ -76,29 +99,6 @@ typedef unsigned __int64 blkcphr_u64_t;
 #  define blkcphr_bswap16 _byteswap_ushort
 #  define blkcphr_bswap32 _byteswap_ulong
 #  define blkcphr_bswap64 _byteswap_uint64
-#else
-#  error Unsupported compiler
-#endif
-
-/* Detecting endianness */
-
-#if BLKCPHR_ON_GNUC
-#  if defined(__BYTE_ORDER__)
-#    if   __BYTE_ORDER__ == __ORDER_LITTLE_ENDIAN__
-#      define BLKCPHR_IS_LITTLE 1
-#      define BLKCPHR_IS_BIG    0
-#    elif __BYTE_ORDER__ == __ORDER_BIG_ENDIAN__
-#      define BLKCPHR_IS_LITTLE 0
-#      define BLKCPHR_IS_BIG    1
-#    else
-#      error Unknown endianness
-#    endif
-#  else
-#    error Not defined __BYTE_ORDER__
-#  endif
-#elif BLKCPHR_ON_MSVC
-#  define BLKCPHR_IS_LITTLE 1
-#  define BLKCPHR_IS_BIG    0
 #else
 #  error Unsupported compiler
 #endif
