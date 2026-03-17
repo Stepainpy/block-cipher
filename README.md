@@ -11,10 +11,10 @@ All functions that return a value return `0` upon success, nonzero value otherwi
 
 ### Ciphers
 
-**`#define <NANE>_BLOCK_BITS <integer-literal>`**  
+**`#define <NAME>_BLOCK_BITS <integer-literal>`**  
 The length of the encrypted block in bits.
 
-**`#define <NANE>_BLOCK_BYTE <integer-literal>`**  
+**`#define <NAME>_BLOCK_BYTE <integer-literal>`**  
 The length of the encrypted block in bytes.
 
 **`int <name>_init(const void* key, int key_bits)`**  
