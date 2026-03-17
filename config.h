@@ -117,6 +117,30 @@ typedef unsigned __int64 blkcphr_u64_t;
 
 /* Byte swapping one, pair and blocks */
 
+#define BLKCPHR_BSWAP_B_STMT_1(bits, array) \
+    (array)[0] = blkcphr_bswap##bits((array)[0]);
+#define BLKCPHR_BSWAP_B_STMT_2(bits, array) \
+    BLKCPHR_BSWAP_B_STMT_1(bits, array)     \
+    (array)[1] = blkcphr_bswap##bits((array)[1]);
+#define BLKCPHR_BSWAP_B_STMT_3(bits, array) \
+    BLKCPHR_BSWAP_B_STMT_2(bits, array)     \
+    (array)[2] = blkcphr_bswap##bits((array)[2]);
+#define BLKCPHR_BSWAP_B_STMT_4(bits, array) \
+    BLKCPHR_BSWAP_B_STMT_3(bits, array)     \
+    (array)[3] = blkcphr_bswap##bits((array)[3]);
+#define BLKCPHR_BSWAP_B_STMT_5(bits, array) \
+    BLKCPHR_BSWAP_B_STMT_4(bits, array)     \
+    (array)[4] = blkcphr_bswap##bits((array)[4]);
+#define BLKCPHR_BSWAP_B_STMT_6(bits, array) \
+    BLKCPHR_BSWAP_B_STMT_5(bits, array)     \
+    (array)[5] = blkcphr_bswap##bits((array)[5]);
+#define BLKCPHR_BSWAP_B_STMT_7(bits, array) \
+    BLKCPHR_BSWAP_B_STMT_6(bits, array)     \
+    (array)[6] = blkcphr_bswap##bits((array)[6]);
+#define BLKCPHR_BSWAP_B_STMT_8(bits, array) \
+    BLKCPHR_BSWAP_B_STMT_7(bits, array)     \
+    (array)[7] = blkcphr_bswap##bits((array)[7]);
+
 #define BLKCPHR_BSWAP_B_ONE(bits, value) do { \
     (value) = blkcphr_bswap##bits(value); \
 } while (0)
@@ -126,58 +150,24 @@ typedef unsigned __int64 blkcphr_u64_t;
     (R) = blkcphr_bswap##bits(R); \
 } while (0)
 
-#define BLKCPHR_BSWAP_Bx2(bits, array) do { \
-    (array)[0] = blkcphr_bswap##bits((array)[0]); \
-    (array)[1] = blkcphr_bswap##bits((array)[1]); \
+#define BLKCPHR_BSWAP_BxN(number, bits, array) do { \
+    BLKCPHR_BSWAP_B_STMT_##number(bits, array) \
 } while (0)
 
-#define BLKCPHR_BSWAP_Bx3(bits, array) do { \
-    (array)[0] = blkcphr_bswap##bits((array)[0]); \
-    (array)[1] = blkcphr_bswap##bits((array)[1]); \
-    (array)[2] = blkcphr_bswap##bits((array)[2]); \
-} while (0)
-
-#define BLKCPHR_BSWAP_Bx4(bits, array) do { \
-    (array)[0] = blkcphr_bswap##bits((array)[0]); \
-    (array)[1] = blkcphr_bswap##bits((array)[1]); \
-    (array)[2] = blkcphr_bswap##bits((array)[2]); \
-    (array)[3] = blkcphr_bswap##bits((array)[3]); \
-} while (0)
-
-#define BLKCPHR_BSWAP_Bx6(bits, array) do { \
-    (array)[0] = blkcphr_bswap##bits((array)[0]); \
-    (array)[1] = blkcphr_bswap##bits((array)[1]); \
-    (array)[2] = blkcphr_bswap##bits((array)[2]); \
-    (array)[3] = blkcphr_bswap##bits((array)[3]); \
-    (array)[4] = blkcphr_bswap##bits((array)[4]); \
-    (array)[5] = blkcphr_bswap##bits((array)[5]); \
-} while (0)
-
-#define BLKCPHR_BSWAP_Bx8(bits, array) do { \
-    (array)[0] = blkcphr_bswap##bits((array)[0]); \
-    (array)[1] = blkcphr_bswap##bits((array)[1]); \
-    (array)[2] = blkcphr_bswap##bits((array)[2]); \
-    (array)[3] = blkcphr_bswap##bits((array)[3]); \
-    (array)[4] = blkcphr_bswap##bits((array)[4]); \
-    (array)[5] = blkcphr_bswap##bits((array)[5]); \
-    (array)[6] = blkcphr_bswap##bits((array)[6]); \
-    (array)[7] = blkcphr_bswap##bits((array)[7]); \
-} while (0)
-
-#define BLKCPHR_BSWAP_16x4(array) BLKCPHR_BSWAP_Bx4(16, array)
-#define BLKCPHR_BSWAP_16x8(array) BLKCPHR_BSWAP_Bx8(16, array)
+#define BLKCPHR_BSWAP_16x4(array) BLKCPHR_BSWAP_BxN(4, 16, array)
+#define BLKCPHR_BSWAP_16x8(array) BLKCPHR_BSWAP_BxN(8, 16, array)
 
 #define BLKCPHR_BSWAP_32_ONE(value) BLKCPHR_BSWAP_B_ONE(32, value)
 #define BLKCPHR_BSWAP_32_PAIR(L, R) BLKCPHR_BSWAP_B_PAIR(32, L, R)
-#define BLKCPHR_BSWAP_32x4(array) BLKCPHR_BSWAP_Bx4(32, array)
-#define BLKCPHR_BSWAP_32x6(array) BLKCPHR_BSWAP_Bx6(32, array)
-#define BLKCPHR_BSWAP_32x8(array) BLKCPHR_BSWAP_Bx8(32, array)
+#define BLKCPHR_BSWAP_32x4(array) BLKCPHR_BSWAP_BxN(4, 32, array)
+#define BLKCPHR_BSWAP_32x6(array) BLKCPHR_BSWAP_BxN(6, 32, array)
+#define BLKCPHR_BSWAP_32x8(array) BLKCPHR_BSWAP_BxN(8, 32, array)
 
 #define BLKCPHR_BSWAP_64_ONE(value) BLKCPHR_BSWAP_B_ONE(64, value)
 #define BLKCPHR_BSWAP_64_PAIR(L, R) BLKCPHR_BSWAP_B_PAIR(64, L, R)
-#define BLKCPHR_BSWAP_64x2(array) BLKCPHR_BSWAP_Bx2(64, array)
-#define BLKCPHR_BSWAP_64x3(array) BLKCPHR_BSWAP_Bx3(64, array)
-#define BLKCPHR_BSWAP_64x4(array) BLKCPHR_BSWAP_Bx4(64, array)
+#define BLKCPHR_BSWAP_64x2(array) BLKCPHR_BSWAP_BxN(2, 64, array)
+#define BLKCPHR_BSWAP_64x3(array) BLKCPHR_BSWAP_BxN(3, 64, array)
+#define BLKCPHR_BSWAP_64x4(array) BLKCPHR_BSWAP_BxN(4, 64, array)
 
 /* Bit rotation functions */
 
